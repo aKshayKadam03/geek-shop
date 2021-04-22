@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled, { ThemeProvider } from "styled-components";
+import "./App.css";
+import Navbar from "./Components/Navigation/Navbar";
+import Shop from "./Pages/Shop/Shop";
+
+const theme = {
+  light: {
+    backgroundColor: "#fff",
+    fontColor: "#000",
+  },
+  dark: {
+    backgroundColor: "#000",
+    fontColor: "#fff",
+  },
+};
+
+const AppWrapper = styled.div`
+  border: 1px solid ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.fontColor};
+`;
 
 function App() {
+  const [activeTheme, setActiveTheme] = React.useState("light");
+
+  const themeToggle = () => {
+    if (activeTheme === "light") {
+      setActiveTheme("dark");
+    } else {
+      setActiveTheme("light");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme[activeTheme]}>
+      <AppWrapper>
+        <Navbar themeToggle={themeToggle}></Navbar>
+        <Shop></Shop>
+      </AppWrapper>
+    </ThemeProvider>
   );
 }
 
