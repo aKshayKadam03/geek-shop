@@ -50,66 +50,48 @@ const SectionItem = styled.div`
   }
 `;
 
-const AirbnbSlider = withStyles({
+const PrettoSlider = withStyles({
   root: {
-    color: "#3a8589",
-    height: 3,
-    padding: "13px 0",
+    color: "#52af77",
+    height: 8,
   },
   thumb: {
-    height: 27,
-    width: 27,
+    height: 24,
+    width: 24,
     backgroundColor: "#fff",
-    border: "1px solid currentColor",
-    marginTop: -12,
-    marginLeft: -13,
-    boxShadow: "#ebebeb 0 2px 2px",
+    border: "2px solid currentColor",
+    marginTop: -8,
+    marginLeft: -12,
     "&:focus, &:hover, &$active": {
-      boxShadow: "#ccc 0 2px 3px 1px",
-    },
-    "& .bar": {
-      // display: inline-block !important;
-      height: 9,
-      width: 1,
-      backgroundColor: "currentColor",
-      marginLeft: 1,
-      marginRight: 1,
+      boxShadow: "inherit",
     },
   },
   active: {},
+  valueLabel: {
+    left: "calc(-50% + 4px)",
+  },
   track: {
-    height: 3,
+    height: 8,
+    borderRadius: 4,
   },
   rail: {
-    color: "#d8d8d8",
-    opacity: 1,
-    height: 3,
+    height: 8,
+    borderRadius: 4,
   },
 })(Slider);
 
-function AirbnbThumbComponent(props) {
-  return (
-    <span {...props}>
-      <span className="bar" />
-      <span className="bar" />
-      <span className="bar" />
-    </span>
-  );
-}
-
-function Filter({ brands, categories }) {
+function Filter({ brands, categories, minPrice, maxPrice }) {
   return (
     <FilterWrapper>
       <h1>Selection</h1>
       <Section>
         <SubHeadingTwo>Price</SubHeadingTwo>
         <SectionItem>
-          <AirbnbSlider
-            ThumbComponent={AirbnbThumbComponent}
-            getAriaLabel={(index) =>
-              index === 0 ? "Minimum price" : "Maximum price"
-            }
-            defaultValue={[20, 40]}
+          <PrettoSlider
+            valueLabelDisplay="on"
+            defaultValue={maxPrice / 2}
+            min={minPrice}
+            max={maxPrice}
           />
         </SectionItem>
       </Section>

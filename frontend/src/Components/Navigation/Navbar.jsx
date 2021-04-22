@@ -140,22 +140,25 @@ function Navbar({ themeToggle }) {
             <Logo>Logo</Logo>
             <OptionHolder>
               <div>
-                <p>Desktop</p>
+                <p>Desktops</p>
               </div>
               <div>
-                <p>Laptops</p>
-              </div>
-              <div>
-                <p>Surveillance</p>
+                <p>Monitors</p>
               </div>
               <div>
                 <p>Processors</p>
               </div>
               <div>
-                <p>Motherboard</p>
+                <p>Speakers</p>
               </div>
               <div>
-                <p>Accessories</p>
+                <p>Motherboards</p>
+              </div>
+              <div>
+                <p>Keyboards</p>
+              </div>
+              <div>
+                <p>Mouse</p>
               </div>
             </OptionHolder>
             <ActionsHolder>

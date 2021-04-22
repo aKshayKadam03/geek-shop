@@ -1,16 +1,35 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product.model");
-const client = require("../config/redis");
+const Brand = require("../models/brand.model");
+const Category = require("../models/category.model");
 
 router.get("/", async (req, res) => {
-  let products = await Product.find({}).lean().exec();
-  let totalProducts = await Product.find({}).countDocuments().lean().exec();
-  let categories = await Product.distinct("category");
-  let brands = await Product.distinct("brand");
-  return res
-    .status(200)
-    .json({ totalProducts, brands, categories, data: products });
+  let products = await Product.find({})
+    .populate("categoryId")
+    .populate("brandId")
+    .lean()
+    .exec();
+
+  let totalProducts = products.length;
+  let min = await Product.findOne({}).sort({ price: 1 });
+  let max = await Product.findOne({}).sort({ price: -1 });
+  let categoryObj = {};
+  let brandObj = {};
+  products.map((item) => {
+    categoryObj[item.categoryId.name] = 1;
+    brandObj[item.brandId.name] = 1;
+  });
+  let categories = Object.keys(categoryObj);
+  let brands = Object.keys(brandObj);
+  return res.status(200).json({
+    categories,
+    brands,
+    totalProducts,
+    minPrice: min.price,
+    maxPrice: max.price,
+    data: products,
+  });
 });
 
 router.get("/:id", async (req, res) => {
@@ -36,16 +55,3 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 module.exports = router;
-
-//redis caching
-
-// client.get("allProducts", async function (err, response) {
-//   if (err) return res.status(500).json({ message: "Something went wrong" });
-//   if (response) {
-//     return res.status(200).json({ data: JSON.parse(response) });
-//   } else {
-//     let products = await Product.find({}).lean().exec();
-//     client.set("allProducts", JSON.stringify(products));
-//     return res.status(200).json({ data: products });
-//   }
-// });

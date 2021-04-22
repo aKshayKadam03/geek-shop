@@ -3,6 +3,8 @@ import * as actionTypes from "./actionType";
 const initState = {
   isLoading: false,
   isError: false,
+  minPrice: 0,
+  maxPrice: 0,
   productsTotal: 0,
   products: [],
   brands: [],
@@ -22,6 +24,8 @@ export const productReducer = (state = initState, { type, data }) => {
         productsTotal: data.totalProducts,
         brands: data.brands,
         categories: data.categories,
+        minPrice: data.min,
+        maxPrice: data.max,
       };
 
     case actionTypes.GET_PRODUCTS_FAILURE:

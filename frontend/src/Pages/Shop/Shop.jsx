@@ -25,11 +25,9 @@ const Container = styled.div`
   }
   > div:nth-child(1) {
     width: 25%;
-    border: 1px solid red;
   }
   > div:nth-child(2) {
     width: 75%;
-    border: 1px solid red;
   }
 `;
 
@@ -47,6 +45,9 @@ function Shop() {
   );
   const brands = useSelector((state) => state.productReducer.brands);
   const categories = useSelector((state) => state.productReducer.categories);
+  const minPrice = useSelector((state) => state.productReducer.minPrice);
+  const maxPrice = useSelector((state) => state.productReducer.maxPrice);
+
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getProductsHandler());
@@ -56,9 +57,13 @@ function Shop() {
     <PageWrapper>
       <Catalog></Catalog>
       <Container>
-        <Filter brands={brands} categories={categories}></Filter>
+        <Filter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          brands={brands}
+          categories={categories}
+        ></Filter>
         <ShopItems>
-          <Paragraph>{productsTotal}</Paragraph>
           {products?.map((item) => (
             <ProductCard key={item._id} {...item}></ProductCard>
           ))}

@@ -79,7 +79,7 @@ function ProductCard({
       </ProductImg>
       <ProductContent>
         <ProductTitle>{product_name.slice(0, 21)}</ProductTitle>
-        <ProductPrice>{price.slice(1)}</ProductPrice>
+        <ProductPrice>{price}</ProductPrice>
         <ProductCategory>{category}</ProductCategory>
         <Rating value={ratings} name="disabled" readOnly></Rating>
       </ProductContent>
