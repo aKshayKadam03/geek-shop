@@ -20,10 +20,10 @@ const getProductsFailure = () => {
   };
 };
 
-export const getProductsHandler = () => (dispatch) => {
+export const getProductsHandler = (payload) => (dispatch) => {
   dispatch(getProductsRequest());
   return axios
-    .get("http://localhost:8000/products")
+    .post("http://localhost:8000/products", payload)
     .then((res) => dispatch(getProductsSuccess(res.data)))
     .catch((err) => dispatch(getProductsFailure()));
 };

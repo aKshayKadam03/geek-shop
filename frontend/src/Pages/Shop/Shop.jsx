@@ -39,6 +39,11 @@ const ShopItems = styled.div`
 `;
 
 function Shop() {
+  const [priceLimit, setPriceLimit] = React.useState(90000);
+
+  const [brandsArray, setBrandsArray] = React.useState([]);
+  const [categoriesArray, setCategoriesArray] = React.useState([]);
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.productReducer.products);
   const productsTotal = useSelector(
     (state) => state.productReducer.productsTotal
@@ -47,21 +52,37 @@ function Shop() {
   const categories = useSelector((state) => state.productReducer.categories);
   const minPrice = useSelector((state) => state.productReducer.minPrice);
   const maxPrice = useSelector((state) => state.productReducer.maxPrice);
+  const brandsCount = useSelector((state) => state.productReducer.brandsCount);
+  const categoriesCount = useSelector(
+    (state) => state.productReducer.categoriesCount
+  );
 
-  const dispatch = useDispatch();
+  const onCategoryChangeHandler = (e) => {
+    console.log(e);
+  };
+
+  const onBrandChangeHandler = () => {};
+
   React.useEffect(() => {
-    dispatch(getProductsHandler());
-  }, []);
+    let payload = {
+      priceLimit,
+    };
+    dispatch(getProductsHandler(payload));
+  }, [priceLimit]);
 
   return (
     <PageWrapper>
       <Catalog></Catalog>
       <Container>
         <Filter
+          brandsCount={brandsCount}
+          categoriesCount={categoriesCount}
           minPrice={minPrice}
           maxPrice={maxPrice}
           brands={brands}
           categories={categories}
+          setPriceLimit={setPriceLimit}
+          onCategoryChangeHandler={onCategoryChangeHandler}
         ></Filter>
         <ShopItems>
           {products?.map((item) => (

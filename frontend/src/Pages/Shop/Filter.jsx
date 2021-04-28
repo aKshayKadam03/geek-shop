@@ -10,6 +10,8 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 
+import Checkbox from "@material-ui/core/Checkbox";
+
 const FilterWrapper = styled.div`
   min-height: 100vh;
   display: flex;
@@ -42,6 +44,7 @@ const SectionItem = styled.div`
   align-items: center;
   text-align: right;
   padding-left: 10px;
+  text-transform: capitalize;
   input {
     margin: 5px;
   }
@@ -62,6 +65,7 @@ const PrettoSlider = withStyles({
     border: "2px solid currentColor",
     marginTop: -8,
     marginLeft: -12,
+
     "&:focus, &:hover, &$active": {
       boxShadow: "inherit",
     },
@@ -80,7 +84,17 @@ const PrettoSlider = withStyles({
   },
 })(Slider);
 
-function Filter({ brands, categories, minPrice, maxPrice }) {
+function Filter({
+  brandsCount,
+  categoriesCount,
+  brands,
+  categories,
+  minPrice,
+  maxPrice,
+  setPriceLimit,
+  onCategoryChangeHandler,
+}) {
+  console.log("categories", categories);
   return (
     <FilterWrapper>
       <h1>Selection</h1>
@@ -89,9 +103,9 @@ function Filter({ brands, categories, minPrice, maxPrice }) {
         <SectionItem>
           <PrettoSlider
             valueLabelDisplay="on"
-            defaultValue={maxPrice / 2}
             min={minPrice}
             max={maxPrice}
+            onChangeCommitted={(e, value) => setPriceLimit(value)}
           />
         </SectionItem>
       </Section>
@@ -100,14 +114,19 @@ function Filter({ brands, categories, minPrice, maxPrice }) {
           <ArrowDropDownIcon />
           <SubHeadingTwo>Category</SubHeadingTwo>
         </SectionHead>
-        {categories.map((item) => (
+        {categories.map((item, index) => (
           <SectionItem>
             <div>
-              <input type="checkbox"></input>
-              {item}
+              <label>
+                <input
+                  onChange={onCategoryChangeHandler}
+                  type="checkbox"
+                ></input>
+                {item}
+              </label>
             </div>
             <div>
-              <p>(2)</p>
+              <p>{categoriesCount[index]}</p>
             </div>
           </SectionItem>
         ))}
@@ -117,14 +136,16 @@ function Filter({ brands, categories, minPrice, maxPrice }) {
           <ArrowDropDownIcon />
           <SubHeadingTwo>Brands</SubHeadingTwo>
         </SectionHead>
-        {brands.map((item) => (
+        {brands.map((item, index) => (
           <SectionItem>
             <div>
-              <input type="checkbox"></input>
-              {item}
+              <label>
+                <input type="checkbox"></input>
+                {item}
+              </label>
             </div>
             <div>
-              <p>(2)</p>
+              <p>{brandsCount[index]}</p>
             </div>
           </SectionItem>
         ))}

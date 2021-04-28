@@ -71,7 +71,6 @@ function ProductCard({
   reviews,
   ratings,
 }) {
-  console.log(ratings);
   return (
     <ProductCardWrapper>
       <ProductImg>

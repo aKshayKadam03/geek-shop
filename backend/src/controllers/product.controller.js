@@ -4,8 +4,20 @@ const Product = require("../models/product.model");
 const Brand = require("../models/brand.model");
 const Category = require("../models/category.model");
 
-router.get("/", async (req, res) => {
-  let products = await Product.find({})
+router.post("/", async (req, res) => {
+  let priceLimit = req.body.priceLimit || 100000000000000;
+  let incomingBrands = req.body.brands;
+  let incomingCategories = req.body.categories;
+
+  //for products display
+  let displayProducts = await Product.find({ price: { $lte: priceLimit } })
+    .populate("categoryId")
+    .populate("brandId")
+    .lean()
+    .exec();
+
+  //for filter section
+  let products = await Product.find({ price: { $lte: priceLimit } })
     .populate("categoryId")
     .populate("brandId")
     .lean()
@@ -16,19 +28,34 @@ router.get("/", async (req, res) => {
   let max = await Product.findOne({}).sort({ price: -1 });
   let categoryObj = {};
   let brandObj = {};
+
   products.map((item) => {
-    categoryObj[item.categoryId.name] = 1;
-    brandObj[item.brandId.name] = 1;
+    if (!categoryObj[item.categoryId.name]) {
+      categoryObj[item.categoryId.name] = 1;
+    } else {
+      categoryObj[item.categoryId.name] = categoryObj[item.categoryId.name] + 1;
+    }
+
+    if (!brandObj[item.brandId.name]) {
+      brandObj[item.brandId.name] = 1;
+    } else {
+      brandObj[item.brandId.name] = brandObj[item.brandId.name] + 1;
+    }
   });
   let categories = Object.keys(categoryObj);
+  let categoriesCount = Object.values(categoryObj);
   let brands = Object.keys(brandObj);
+  let brandsCount = Object.values(brandObj);
+
   return res.status(200).json({
-    categories,
     brands,
+    brandsCount,
+    categories,
+    categoriesCount,
     totalProducts,
-    minPrice: min.price,
-    maxPrice: max.price,
-    data: products,
+    min: min.price,
+    max: max.price,
+    data: displayProducts,
   });
 });
 

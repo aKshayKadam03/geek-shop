@@ -9,6 +9,8 @@ const initState = {
   products: [],
   brands: [],
   categories: [],
+  brandsCount: [],
+  categoriesCount: [],
 };
 
 export const productReducer = (state = initState, { type, data }) => {
@@ -26,6 +28,8 @@ export const productReducer = (state = initState, { type, data }) => {
         categories: data.categories,
         minPrice: data.min,
         maxPrice: data.max,
+        brandsCount: data.brandsCount,
+        categoriesCount: data.categoriesCount,
       };
 
     case actionTypes.GET_PRODUCTS_FAILURE:
