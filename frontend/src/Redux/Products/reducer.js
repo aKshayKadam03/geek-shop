@@ -9,8 +9,6 @@ const initState = {
   products: [],
   brands: [],
   categories: [],
-  brandsCount: [],
-  categoriesCount: [],
 };
 
 export const productReducer = (state = initState, { type, data }) => {
@@ -22,17 +20,44 @@ export const productReducer = (state = initState, { type, data }) => {
       return {
         ...state,
         isLoading: false,
-        products: data.data,
+        products: data.products,
         productsTotal: data.totalProducts,
         brands: data.brands,
         categories: data.categories,
         minPrice: data.min,
         maxPrice: data.max,
-        brandsCount: data.brandsCount,
-        categoriesCount: data.categoriesCount,
       };
 
     case actionTypes.GET_PRODUCTS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.FILTER_PRODUCTS_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.FILTER_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        products: data.products,
+        productsTotal: data.totalProducts,
+        brands: data.brands,
+      };
+
+    case actionTypes.FILTER_PRODUCTS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.FILTER_BRANDS_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.FILTER_BRANDS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        products: data.products,
+        productsTotal: data.totalProducts,
+      };
+
+    case actionTypes.FILTER_BRANDS_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
     default:

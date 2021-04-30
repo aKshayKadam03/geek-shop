@@ -85,16 +85,14 @@ const PrettoSlider = withStyles({
 })(Slider);
 
 function Filter({
-  brandsCount,
-  categoriesCount,
   brands,
   categories,
   minPrice,
   maxPrice,
   setPriceLimit,
   onCategoryChangeHandler,
+  onBrandChangeHandler,
 }) {
-  console.log("categories", categories);
   return (
     <FilterWrapper>
       <h1>Selection</h1>
@@ -115,18 +113,20 @@ function Filter({
           <SubHeadingTwo>Category</SubHeadingTwo>
         </SectionHead>
         {categories.map((item, index) => (
-          <SectionItem>
+          <SectionItem key={item[0]}>
             <div>
               <label>
                 <input
+                  className="categories"
                   onChange={onCategoryChangeHandler}
                   type="checkbox"
+                  name={item[0]}
                 ></input>
-                {item}
+                {item[1].name}
               </label>
             </div>
             <div>
-              <p>{categoriesCount[index]}</p>
+              <p>{item[1].items}</p>
             </div>
           </SectionItem>
         ))}
@@ -137,15 +137,20 @@ function Filter({
           <SubHeadingTwo>Brands</SubHeadingTwo>
         </SectionHead>
         {brands.map((item, index) => (
-          <SectionItem>
+          <SectionItem key={item[0]}>
             <div>
               <label>
-                <input type="checkbox"></input>
-                {item}
+                <input
+                  className="brands"
+                  onChange={onBrandChangeHandler}
+                  name={item[0]}
+                  type="checkbox"
+                ></input>
+                {item[1].name}
               </label>
             </div>
             <div>
-              <p>{brandsCount[index]}</p>
+              <p>{item[1].items}</p>
             </div>
           </SectionItem>
         ))}
