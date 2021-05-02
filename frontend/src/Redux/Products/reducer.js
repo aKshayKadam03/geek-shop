@@ -22,8 +22,7 @@ export const productReducer = (state = initState, { type, data }) => {
         isLoading: false,
         products: data.products,
         productsTotal: data.totalProducts,
-        brands: data.brands,
-        categories: data.categories,
+
         minPrice: data.min,
         maxPrice: data.max,
       };
@@ -31,33 +30,31 @@ export const productReducer = (state = initState, { type, data }) => {
     case actionTypes.GET_PRODUCTS_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
-    case actionTypes.FILTER_PRODUCTS_REQUEST:
+    case actionTypes.GET_CATEGORIES_REQUEST:
       return { ...state, isLoading: true };
 
-    case actionTypes.FILTER_PRODUCTS_SUCCESS:
+    case actionTypes.GET_CATEGORIES_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        products: data.products,
-        productsTotal: data.totalProducts,
-        brands: data.brands,
+        categories: data.data,
       };
 
-    case actionTypes.FILTER_PRODUCTS_FAILURE:
+    case actionTypes.GET_CATEGORIES_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
-    case actionTypes.FILTER_BRANDS_REQUEST:
+    case actionTypes.GET_BRANDS_REQUEST:
       return { ...state, isLoading: true };
 
-    case actionTypes.FILTER_BRANDS_SUCCESS:
+    case actionTypes.GET_BRANDS_SUCCESS:
+      console.log(data.brands, "brands");
       return {
         ...state,
         isLoading: false,
-        products: data.products,
-        productsTotal: data.totalProducts,
+        brands: data.data,
       };
 
-    case actionTypes.FILTER_BRANDS_FAILURE:
+    case actionTypes.GET_BRANDS_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
     default:

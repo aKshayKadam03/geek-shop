@@ -30,34 +30,32 @@ const Navigation = styled.div`
 `;
 
 const Logo = styled.div`
-  flex-grow: 2;
+  flex-grow: 1;
   font-size: 21px;
 `;
 
 const OptionHolder = styled.div`
-  flex-grow: 4;
+  flex-grow: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  > div {
-    margin: 0 20px;
-    transition: border 200ms ease;
-    border-bottom: 1px solid ${(props) => props.theme.backgroundColor};
-    :hover {
-      border-bottom: 1px solid ${(props) => props.theme.fontColor};
-    }
-    > p {
-      font-size: 16px;
-    }
+
+  > input {
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    padding: 5px 20px;
+    outline: none;
+    border-bottom: 2px solid #858282;
   }
+
   @media (max-width: 1100px) {
     display: none;
   }
 `;
 
 const ActionsHolder = styled.div`
-  flex-grow: 3;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -82,35 +80,6 @@ const ActionsHolder = styled.div`
   }
 `;
 
-const SearchBar = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  > div {
-    margin: 10px;
-  }
-  > div:nth-child(1) {
-    width: 3%;
-  }
-  > div:nth-child(2) {
-    width: 94%;
-  }
-  > div:nth-child(3) {
-    width: 3%;
-  }
-  input {
-    color: ${(props) => props.theme.fontColor};
-    font-size: 16px;
-    width: 100%;
-    border: none;
-    outline: none;
-    background-color: ${(props) => props.theme.backgroundColor};
-    border-bottom: 1px solid ${(props) => props.theme.fontColor};
-  }
-`;
-
 function Navbar({ themeToggle }) {
   const [search, setSearch] = React.useState(false);
 
@@ -121,62 +90,24 @@ function Navbar({ themeToggle }) {
   return (
     <NavbarWrapper>
       <Navigation>
-        {search ? (
-          <>
-            <SearchBar>
-              <div>
-                <SearchIcon fontSize="default" />
-              </div>
-              <div>
-                <input placeholder="Search..."></input>
-              </div>
-              <div onClick={searchBarToggler}>
-                <CloseOutlinedIcon fontSize="default" />
-              </div>
-            </SearchBar>
-          </>
-        ) : (
-          <>
-            <Logo>Logo</Logo>
-            <OptionHolder>
-              <div>
-                <p>Desktops</p>
-              </div>
-              <div>
-                <p>Monitors</p>
-              </div>
-              <div>
-                <p>Processors</p>
-              </div>
-              <div>
-                <p>Speakers</p>
-              </div>
-              <div>
-                <p>Motherboards</p>
-              </div>
-              <div>
-                <p>Keyboards</p>
-              </div>
-              <div>
-                <p>Mouse</p>
-              </div>
-            </OptionHolder>
-            <ActionsHolder>
-              <div onClick={searchBarToggler}>
-                <SearchIcon fontSize="default" />
-              </div>
-              <div>
-                <MenuOutlinedIcon fontSize="default" />
-              </div>
-              <div onClick={themeToggle}>
-                <PersonOutlineOutlinedIcon fontSize="default" />
-              </div>
-              <div>
-                <ShoppingCartOutlinedIcon fontSize="default" />
-              </div>
-            </ActionsHolder>
-          </>
-        )}
+        <Logo>Logo</Logo>
+        <OptionHolder>
+          <input placeholder="Search..."></input>
+        </OptionHolder>
+        <ActionsHolder>
+          <div>
+            <p>Go To Shop</p>
+          </div>
+          <div>
+            <MenuOutlinedIcon fontSize="default" />
+          </div>
+          <div onClick={themeToggle}>
+            <PersonOutlineOutlinedIcon fontSize="default" />
+          </div>
+          <div>
+            <ShoppingCartOutlinedIcon fontSize="default" />
+          </div>
+        </ActionsHolder>
       </Navigation>
     </NavbarWrapper>
   );

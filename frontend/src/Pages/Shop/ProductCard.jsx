@@ -9,7 +9,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 const ProductCardWrapper = styled.div`
   width: 31%;
   margin: 10px;
-  min-width: 280px;
+  min-width: 320px;
   border: 1px solid ${(props) => props.theme.backgroundColor};
   transition: all 400ms ease;
   cursor: pointer;
@@ -19,7 +19,7 @@ const ProductCardWrapper = styled.div`
   border-radius: 10px;
   :hover {
     box-shadow: 2px 2px 8px #dad7d7;
-    transform: scale(1.01);
+    border: 1px solid #d4d2d2;
   }
 `;
 
@@ -65,10 +65,9 @@ const ProductPrice = styled.p`
 `;
 const ProductCategory = styled.div`
   padding: 2px 5px;
-  letter-spacing: 0.6ch;
+  letter-spacing: 0.2ch;
   font-size: 12px;
   border-radius: 2px;
-  text-transform: uppercase;
 `;
 
 const ProductDesc = styled.div`
@@ -92,7 +91,7 @@ const CardIcon = styled.div`
 const CartButton = styled.div`
   background-color: #000000;
   padding: 8px 10px;
-  border-radius: 20px;
+  border-radius: 10px;
   min-width: 180px;
   display: flex;
   align-items: center;
@@ -102,6 +101,14 @@ const CartButton = styled.div`
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.2ch;
+  box-shadow: 8px 8px 16px #a7a4a4;
+
+  :hover {
+    i {
+      transition: all 1000ms ease;
+      color: #38343a;
+    }
+  }
 `;
 
 function ProductCard({
@@ -124,9 +131,10 @@ function ProductCard({
       <ProductInfo>
         <div>
           <div>
-            <span>Reviews</span>
+            <ProductCategory>Ratings</ProductCategory>
+            {/* <span>Ratings</span> */}
           </div>
-          <Rating value={ratings} name="disabled" readOnly></Rating>
+          <Rating value={+ratings} readOnly></Rating>
         </div>
         <div>
           <ProductPrice>{price}</ProductPrice>

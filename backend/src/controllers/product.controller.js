@@ -3,109 +3,58 @@ const router = express.Router();
 const Product = require("../models/product.model");
 const Brand = require("../models/brand.model");
 const Category = require("../models/category.model");
-const { categoriesCollector, brandsCollector } = require("../utils/collector");
+const { getAll } = require("../utils/collector");
 
 router.post("/", async (req, res) => {
   let priceLimit = req.body.priceLimit || 100000000000000;
+  let page = +req.query.page || 1;
+  let size = 9;
+  let offset = (page - 1) * size;
+  let brandsArray = req.body.brandsArray;
+  let categoriesArray = req.body.categoriesArray;
 
-  //filtered products
-  let products = await Product.find({ price: { $lte: priceLimit } })
+  if (brandsArray.length === 0) {
+    let brands = await Brand.find({}).lean().exec();
+    brandsArray = getAll(brands);
+  }
+
+  if (categoriesArray.length === 0) {
+    let categories = await Category.find({}).lean().exec();
+    categoriesArray = getAll(categories);
+  }
+
+  let products;
+
+  products = await Product.find({
+    price: { $lte: priceLimit },
+    categoryId: { $in: categoriesArray },
+    brandId: { $in: brandsArray },
+  })
     .populate("categoryId")
     .populate("brandId")
+    .skip(offset)
+    .limit(size)
     .lean()
     .exec();
 
   //total products
-  totalProducts = products.length;
+  totalProducts = await Product.find({
+    price: { $lte: priceLimit },
+    categoryId: { $in: categoriesArray },
+    brandId: { $in: brandsArray },
+  })
+    .countDocuments()
+    .lean()
+    .exec();
 
   //price range
   let min = await Product.findOne({}, { price: 1, _id: 0 }).sort({ price: 1 });
   let max = await Product.findOne({}, { price: 1, _id: 0 }).sort({ price: -1 });
 
-  //distinct categories
-  let categories = categoriesCollector(products);
-  let brands = brandsCollector(products);
-
   return res.status(200).json({
     totalProducts,
-    brands: Object.entries(brands),
-    categories: Object.entries(categories),
     min: min.price,
     max: max.price,
-    products,
-  });
-});
-
-router.post("/filter/categories", async (req, res) => {
-  let priceLimit = req.body.priceLimit || 100000000000000;
-  let categoriesArray = req.body.categoriesArray;
-  let products;
-
-  //filtered products
-  //brandId: { $in: brandsArray },
-
-  products = await Product.find({
-    price: { $lte: priceLimit },
-    categoryId: { $in: categoriesArray },
-  })
-    .populate("categoryId")
-    .populate("brandId")
-    .lean()
-    .exec();
-
-  let brands = brandsCollector(products);
-  //total products
-  totalProducts = products.length;
-  return res.status(200).json({
-    totalProducts,
-    products,
-    brands: Object.entries(brands),
-  });
-});
-
-router.post("/filter/brands", async (req, res) => {
-  let priceLimit = req.body.priceLimit || 100000000000000;
-  let brandsArray = req.body.brandsArray;
-  let categoriesArray = req.body.categoriesArray;
-  let products;
-  console.log(categoriesArray, brandsArray);
-  //filtered products
-
-  if (categoriesArray.length !== 0 && brandsArray.length !== 0) {
-    products = await Product.find({
-      price: { $lte: priceLimit },
-      categoryId: { $in: categoriesArray },
-      brandId: { $in: brandsArray },
-    })
-      .populate("categoryId")
-      .populate("brandId")
-      .lean()
-      .exec();
-  } else if (categoriesArray.length === 0) {
-    products = await Product.find({
-      price: { $lte: priceLimit },
-      brandId: { $in: brandsArray },
-    })
-      .populate("categoryId")
-      .populate("brandId")
-      .lean()
-      .exec();
-  } else {
-    products = await Product.find({
-      price: { $lte: priceLimit },
-      categoryId: { $in: categoriesArray },
-    })
-      .populate("categoryId")
-      .populate("brandId")
-      .lean()
-      .exec();
-  }
-
-  //total products
-  totalProducts = products.length;
-
-  return res.status(200).json({
-    totalProducts,
     products,
   });
 });

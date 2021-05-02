@@ -20,64 +20,64 @@ const getProductsFailure = () => {
   };
 };
 
-export const getProductsHandler = (payload) => (dispatch) => {
+export const getProductsHandler = (payload, currentPage) => (dispatch) => {
   dispatch(getProductsRequest());
   return axios
-    .post("http://localhost:8000/products", payload)
+    .post(`http://localhost:8000/products?page=${currentPage}`, payload)
     .then((res) => dispatch(getProductsSuccess(res.data)))
     .catch((err) => dispatch(getProductsFailure()));
 };
 
-const filterProductsRequest = () => {
+const getCategoriesRequest = () => {
   return {
-    type: actionTypes.FILTER_PRODUCTS_REQUEST,
+    type: actionTypes.GET_CATEGORIES_REQUEST,
   };
 };
 
-const filterProductsSuccess = (data) => {
+const getCategoriesSuccess = (data) => {
   return {
-    type: actionTypes.FILTER_PRODUCTS_SUCCESS,
+    type: actionTypes.GET_CATEGORIES_SUCCESS,
     data,
   };
 };
 
-const filterProductsFailure = () => {
+const getCategoriesFailure = () => {
   return {
-    type: actionTypes.FILTER_PRODUCTS_FAILURE,
+    type: actionTypes.GET_CATEGORIES_FAILURE,
   };
 };
 
-export const filterProductsHandler = (payload) => (dispatch) => {
-  dispatch(filterProductsRequest());
+export const getCategoriesHandler = () => (dispatch) => {
+  dispatch(getCategoriesRequest());
   return axios
-    .post("http://localhost:8000/products/filter/categories", payload)
-    .then((res) => dispatch(filterProductsSuccess(res.data)))
-    .catch((err) => dispatch(filterProductsFailure()));
+    .get("http://localhost:8000/categories")
+    .then((res) => dispatch(getCategoriesSuccess(res.data)))
+    .catch((err) => dispatch(getCategoriesFailure()));
 };
 
-const filterBrandsRequest = () => {
+const getBrandsRequest = () => {
   return {
-    type: actionTypes.FILTER_BRANDS_REQUEST,
+    type: actionTypes.GET_BRANDS_REQUEST,
   };
 };
 
-const filterBrandsSuccess = (data) => {
+const getBrandsSuccess = (data) => {
   return {
-    type: actionTypes.FILTER_BRANDS_SUCCESS,
+    type: actionTypes.GET_BRANDS_SUCCESS,
     data,
   };
 };
 
-const filterBrandsFailure = () => {
+const getBrandsFailure = () => {
   return {
-    type: actionTypes.FILTER_BRANDS_FAILURE,
+    type: actionTypes.GET_BRANDS_FAILURE,
   };
 };
 
-export const filterBrandsHandler = (payload) => (dispatch) => {
-  dispatch(filterBrandsRequest());
+export const getBrandsHandler = () => (dispatch) => {
+  dispatch(getBrandsRequest());
   return axios
-    .post("http://localhost:8000/products/filter/brands", payload)
-    .then((res) => dispatch(filterBrandsSuccess(res.data)))
-    .catch((err) => dispatch(filterBrandsFailure()));
+    .get("http://localhost:8000/brands")
+    .then((res) => dispatch(getBrandsSuccess(res.data)))
+    .catch((err) => dispatch(getBrandsFailure()));
 };

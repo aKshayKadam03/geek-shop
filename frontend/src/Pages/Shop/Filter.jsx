@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Rating from "@material-ui/lab/Rating";
 import {
   MainHeading,
   Paragraph,
@@ -10,13 +10,11 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 
-import Checkbox from "@material-ui/core/Checkbox";
-
 const FilterWrapper = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Section = styled.div`
@@ -26,7 +24,6 @@ const Section = styled.div`
   justify-content: space-between;
   align-items: space-between;
   border-bottom: 1px solid #e3e3e3;
-  padding: 20px 0px;
 `;
 
 const SectionHead = styled.div`
@@ -37,25 +34,62 @@ const SectionHead = styled.div`
   margin: 10px 0;
 `;
 
+const SectionItemHolder = styled.div`
+  height: 200px;
+  overflow-y: auto;
+`;
+
 const SectionItem = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: right;
-  padding-left: 10px;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  font-weight: 500;
   input {
     margin: 5px;
   }
   > div {
     margin: 5px 10px;
   }
+  span {
+  }
+`;
+
+const SectionSearch = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  > input {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #a19f9f;
+    transition: all 500ms ease;
+  }
+  > input:focus {
+    border-bottom: 2px solid #1f7de9;
+  }
+`;
+
+const SliderInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0 10px;
+  p {
+    font-weight: 500;
+  }
 `;
 
 const PrettoSlider = withStyles({
   root: {
-    color: "#52af77",
+    color: "#1171b1",
     height: 8,
   },
   thumb: {
@@ -75,7 +109,7 @@ const PrettoSlider = withStyles({
     left: "calc(-50% + 4px)",
   },
   track: {
-    height: 8,
+    height: 10,
     borderRadius: 4,
   },
   rail: {
@@ -92,68 +126,116 @@ function Filter({
   setPriceLimit,
   onCategoryChangeHandler,
   onBrandChangeHandler,
+  priceLimit,
 }) {
+  let [forSearchBrands, setForSearchBrands] = React.useState([]);
+  let [forSearchCategories, setForSearchCategories] = React.useState([]);
+
+  let onCategorySearchHandler = (e) => {
+    if (!e.target.value.trim()) {
+      return setForSearchCategories(categories);
+    }
+    let arr = categories.filter((item) =>
+      item.name
+        .substr(e.target.value)
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase())
+    );
+    setForSearchCategories(arr);
+  };
+
+  let onBrandSearchHandler = (e) => {
+    if (!e.target.value.trim()) {
+      return setForSearchBrands(brands);
+    }
+    let arr = brands.filter((item) =>
+      item.name
+        .substr(e.target.value)
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase())
+    );
+    setForSearchBrands(arr);
+  };
+
+  React.useEffect(() => {
+    setForSearchCategories(categories);
+    setForSearchBrands(brands);
+  }, [categories, brands]);
+
   return (
     <FilterWrapper>
-      <h1>Selection</h1>
       <Section>
-        <SubHeadingTwo>Price</SubHeadingTwo>
+        <SectionHead>
+          <SubHeadingTwo>Price</SubHeadingTwo>
+        </SectionHead>
         <SectionItem>
           <PrettoSlider
-            valueLabelDisplay="on"
             min={minPrice}
             max={maxPrice}
             onChangeCommitted={(e, value) => setPriceLimit(value)}
           />
         </SectionItem>
+        <SliderInfo>
+          <div>
+            <Paragraph>₹ {minPrice}</Paragraph>
+          </div>
+          <div>
+            <Paragraph>₹ {maxPrice}</Paragraph>
+          </div>
+        </SliderInfo>
       </Section>
       <Section>
         <SectionHead>
-          <ArrowDropDownIcon />
           <SubHeadingTwo>Category</SubHeadingTwo>
         </SectionHead>
-        {categories.map((item, index) => (
-          <SectionItem key={item[0]}>
-            <div>
-              <label>
-                <input
-                  className="categories"
-                  onChange={onCategoryChangeHandler}
-                  type="checkbox"
-                  name={item[0]}
-                ></input>
-                {item[1].name}
-              </label>
-            </div>
-            <div>
-              <p>{item[1].items}</p>
-            </div>
-          </SectionItem>
-        ))}
+        <SectionSearch>
+          <input
+            onChange={onCategorySearchHandler}
+            placeholder="Search categories"
+          />
+        </SectionSearch>
+        <SectionItemHolder>
+          {forSearchCategories?.map((item, index) => (
+            <SectionItem>
+              <div key={item._id}>
+                <label>
+                  <input
+                    className="categories"
+                    onChange={onCategoryChangeHandler}
+                    type="checkbox"
+                    name={item._id}
+                  ></input>
+                  {item.name}
+                </label>
+              </div>
+            </SectionItem>
+          ))}
+        </SectionItemHolder>
       </Section>
       <Section>
         <SectionHead>
-          <ArrowDropDownIcon />
           <SubHeadingTwo>Brands</SubHeadingTwo>
         </SectionHead>
-        {brands.map((item, index) => (
-          <SectionItem key={item[0]}>
-            <div>
-              <label>
-                <input
-                  className="brands"
-                  onChange={onBrandChangeHandler}
-                  name={item[0]}
-                  type="checkbox"
-                ></input>
-                {item[1].name}
-              </label>
-            </div>
-            <div>
-              <p>{item[1].items}</p>
-            </div>
-          </SectionItem>
-        ))}
+        <SectionSearch>
+          <input onChange={onBrandSearchHandler} placeholder="Search brands" />
+        </SectionSearch>
+        <SectionItemHolder>
+          {forSearchBrands?.map((item, index) => (
+            <SectionItem>
+              <div key={item._id}>
+                <label>
+                  <input
+                    className="brands"
+                    onChange={onBrandChangeHandler}
+                    name={item._id}
+                    type="checkbox"
+                  ></input>
+                  {item.name}
+                </label>
+              </div>
+            </SectionItem>
+          ))}
+        </SectionItemHolder>
       </Section>
     </FilterWrapper>
   );

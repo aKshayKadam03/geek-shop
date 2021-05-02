@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "./Routes/Router";
 import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import Navbar from "./Components/Navigation/Navbar";
@@ -36,7 +37,7 @@ function App() {
     <ThemeProvider theme={theme[activeTheme]}>
       <AppWrapper>
         <Navbar themeToggle={themeToggle}></Navbar>
-        <Shop></Shop>
+        <Router></Router>
       </AppWrapper>
     </ThemeProvider>
   );

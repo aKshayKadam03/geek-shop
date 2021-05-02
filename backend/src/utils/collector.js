@@ -34,7 +34,14 @@ function brandsCollector(products) {
   return brands;
 }
 
+function getAll(entity) {
+  let arr = [];
+  entity.map((item) => arr.push(item._id));
+  return arr;
+}
+
 module.exports = {
   categoriesCollector,
   brandsCollector,
+  getAll,
 };
