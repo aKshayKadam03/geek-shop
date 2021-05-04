@@ -9,6 +9,11 @@ const initState = {
   products: [],
   brands: [],
   categories: [],
+  soloProduct: {},
+  reviews: [],
+  recommendations: [],
+  moreFromSameBrand: [],
+  searchSuggestions: [],
 };
 
 export const productReducer = (state = initState, { type, data }) => {
@@ -47,7 +52,6 @@ export const productReducer = (state = initState, { type, data }) => {
       return { ...state, isLoading: true };
 
     case actionTypes.GET_BRANDS_SUCCESS:
-      console.log(data.brands, "brands");
       return {
         ...state,
         isLoading: false,
@@ -55,6 +59,74 @@ export const productReducer = (state = initState, { type, data }) => {
       };
 
     case actionTypes.GET_BRANDS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_SOLO_PRODUCT_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_SOLO_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        soloProduct: data.data,
+      };
+
+    case actionTypes.GET_SOLO_PRODUCT_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_PRODUCT_REVIEWS_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_PRODUCT_REVIEWS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        reviews: data.data,
+      };
+
+    case actionTypes.GET_PRODUCT_REVIEWS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_RECOMMENDATIONS_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_RECOMMENDATIONS_SUCCESS:
+      console.log(data, "recommend");
+      return {
+        ...state,
+        isLoading: false,
+        recommendations: data.data,
+      };
+
+    case actionTypes.GET_RECOMMENDATIONS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_FROM_SAME_BRAND_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_FROM_SAME_BRAND_SUCCESS:
+      console.log(data, "recommend");
+      return {
+        ...state,
+        isLoading: false,
+        moreFromSameBrand: data.data,
+      };
+
+    case actionTypes.GET_FROM_SAME_BRAND_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_SEARCH_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_SEARCH_SUCCESS:
+      console.log(data, "recommend");
+      return {
+        ...state,
+        isLoading: false,
+        searchSuggestions: data.data,
+      };
+
+    case actionTypes.GET_SEARCH_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
     default:

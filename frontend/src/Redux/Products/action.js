@@ -81,3 +81,149 @@ export const getBrandsHandler = () => (dispatch) => {
     .then((res) => dispatch(getBrandsSuccess(res.data)))
     .catch((err) => dispatch(getBrandsFailure()));
 };
+
+const getSoloProductRequest = () => {
+  return {
+    type: actionTypes.GET_SOLO_PRODUCT_REQUEST,
+  };
+};
+
+const getSoloProductSuccess = (data) => {
+  return {
+    type: actionTypes.GET_SOLO_PRODUCT_SUCCESS,
+    data,
+  };
+};
+
+const getSoloProductFailure = () => {
+  return {
+    type: actionTypes.GET_SOLO_PRODUCT_FAILURE,
+  };
+};
+
+export const getSoloProductHandler = (id) => (dispatch) => {
+  dispatch(getSoloProductRequest());
+  return axios
+    .get(`http://localhost:8000/products/${id}`)
+    .then((res) => {
+      dispatch(getSoloProductSuccess(res.data));
+    })
+    .catch((err) => dispatch(getSoloProductFailure()));
+};
+
+// getting reviews for a product
+
+const getProductReviewRequest = () => {
+  return {
+    type: actionTypes.GET_PRODUCT_REVIEWS_REQUEST,
+  };
+};
+
+const getProductReviewSuccess = (data) => {
+  return {
+    type: actionTypes.GET_PRODUCT_REVIEWS_SUCCESS,
+    data,
+  };
+};
+
+const getProductReviewFailure = () => {
+  return {
+    type: actionTypes.GET_PRODUCT_REVIEWS_FAILURE,
+  };
+};
+
+export const getProductReviewHandler = (payload) => (dispatch) => {
+  dispatch(getProductReviewRequest());
+
+  return axios
+    .post(`http://localhost:8000/reviews`, payload)
+    .then((res) => dispatch(getProductReviewSuccess(res.data)))
+    .catch((err) => dispatch(getProductReviewFailure()));
+};
+
+// getting recommendations
+
+const getRecommendationsRequest = () => {
+  return {
+    type: actionTypes.GET_RECOMMENDATIONS_REQUEST,
+  };
+};
+
+const getRecommendationsSuccess = (data) => {
+  return {
+    type: actionTypes.GET_RECOMMENDATIONS_SUCCESS,
+    data,
+  };
+};
+
+const getRecommendationsFailure = () => {
+  return {
+    type: actionTypes.GET_RECOMMENDATIONS_FAILURE,
+  };
+};
+
+export const getRecommendationsHandler = (id) => (dispatch) => {
+  dispatch(getRecommendationsRequest());
+  return axios
+    .get(`http://localhost:8000/products/category/${id}`)
+    .then((res) => dispatch(getRecommendationsSuccess(res.data)))
+    .catch((err) => dispatch(getRecommendationsFailure()));
+};
+
+// more from same brand
+const getFromSameBrandRequest = () => {
+  return {
+    type: actionTypes.GET_FROM_SAME_BRAND_REQUEST,
+  };
+};
+
+const getFromSameBrandSuccess = (data) => {
+  return {
+    type: actionTypes.GET_FROM_SAME_BRAND_SUCCESS,
+    data,
+  };
+};
+
+const getFromSameBrandFailure = () => {
+  return {
+    type: actionTypes.GET_FROM_SAME_BRAND_FAILURE,
+  };
+};
+
+export const getFromSameBrandHandler = (id) => (dispatch) => {
+  dispatch(getFromSameBrandRequest());
+  return axios
+    .get(`http://localhost:8000/products/brand/${id}`)
+    .then((res) => dispatch(getFromSameBrandSuccess(res.data)))
+    .catch((err) => dispatch(getFromSameBrandFailure()));
+};
+
+//search query for nav
+
+// more from same brand
+const getSearchRequest = () => {
+  return {
+    type: actionTypes.GET_SEARCH_REQUEST,
+  };
+};
+
+const getSearchSuccess = (data) => {
+  return {
+    type: actionTypes.GET_SEARCH_SUCCESS,
+    data,
+  };
+};
+
+const getSearchFailure = () => {
+  return {
+    type: actionTypes.GET_SEARCH_FAILURE,
+  };
+};
+
+export const getSearchHandler = (query) => (dispatch) => {
+  dispatch(getSearchRequest());
+  return axios
+    .get(`http://localhost:8000/products/search/${query}`)
+    .then((res) => dispatch(getSearchSuccess(res.data)))
+    .catch((err) => dispatch(getSearchFailure()));
+};

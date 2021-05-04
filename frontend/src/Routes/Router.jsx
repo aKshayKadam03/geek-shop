@@ -1,6 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import Shop from "../Pages/Shop/Shop";
 import React from "react";
+import Solo from "../Pages/SoloProduct/Solo";
 
 function Router() {
   return (
@@ -8,11 +9,11 @@ function Router() {
       <Route exact path="/">
         <h1>Home Page</h1>
       </Route>
-      <Route path="/shop">
+      <Route exact path="/shop">
         <Shop />
       </Route>
-      <Route path="/shop/:categoryParam">
-        <Shop />
+      <Route path="/shop/:id">
+        <Solo></Solo>
       </Route>
     </Switch>
   );

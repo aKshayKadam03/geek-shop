@@ -9,10 +9,12 @@ const theme = {
   light: {
     backgroundColor: "#fff",
     fontColor: "#000",
+    btnBackground: "#161516",
   },
   dark: {
     backgroundColor: "#000",
     fontColor: "#fff",
+    btnBackground: "#242525",
   },
 };
 

@@ -4,15 +4,17 @@ const reviewsSchema = new mongoose.Schema(
   {
     productId: {
       type: String,
-      rel: "products",
+      ref: "product",
       required: true,
     },
     userId: {
       type: String,
-      rel: "users",
+      ref: "user",
       required: true,
     },
-    message: { type: String, require: true },
+    title: { type: String, required: true },
+    message: { type: String, required: true },
+    rating: { type: Number, required: true },
   },
   { timestamps: true }
 );

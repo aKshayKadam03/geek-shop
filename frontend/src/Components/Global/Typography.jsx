@@ -8,7 +8,10 @@ const SubHeadingTwo = styled.h4``;
 
 const SubHeadingThree = styled.h6``;
 
-const Paragraph = styled.p``;
+const Paragraph = styled.p`
+  font-weight: 500;
+  letter-spacing: 0.1ch;
+`;
 
 export {
   MainHeading,

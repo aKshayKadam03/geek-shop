@@ -60,8 +60,45 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  let product = await Product.findById(req.params.id).lean().exec();
+  let product = await Product.findById(req.params.id)
+    .populate("categoryId")
+    .populate("brandId")
+    .lean()
+    .exec();
   return res.status(200).json({ data: product });
+});
+
+router.get("/category/:id", async (req, res) => {
+  let product = await Product.find({ categoryId: req.params.id })
+    .populate("categoryId")
+    .populate("brandId")
+    .limit(4)
+    .lean()
+    .exec();
+  return res.status(200).json({ data: product });
+});
+
+router.get("/brand/:id", async (req, res) => {
+  let product = await Product.find({ brandId: req.params.id })
+    .populate("categoryId")
+    .populate("brandId")
+    .limit(4)
+    .lean()
+    .exec();
+  return res.status(200).json({ data: product });
+});
+
+router.get("/search/:searchQuery", async (req, res) => {
+  console.log(req.params.searchQuery);
+  const product = await Product.find({
+    product_name: {
+      $regex: req.params.searchQuery,
+      $options: "i",
+    },
+  })
+    .lean()
+    .exec();
+  res.status(200).json({ data: product });
 });
 
 router.post("/create", async (req, res) => {

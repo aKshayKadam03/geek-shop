@@ -82,15 +82,14 @@ const ProductAction = styled.div`
 `;
 
 const CardIcon = styled.div`
-  background-color: #242525;
+  background-color: #181717;
   padding: 10px 12px;
   border-radius: 50%;
   color: white;
-  margin-left: 10px;
 `;
 
 const CartButton = styled.div`
-  background-color: ${(props) => props.theme.btnBackground};
+  background-color: #000000;
   padding: 8px 10px;
   border-radius: 10px;
   min-width: 180px;
@@ -112,7 +111,7 @@ const CartButton = styled.div`
   }
 `;
 
-function ProductCard({
+function Recommendations({
   _id,
   product_name,
   price,
@@ -120,13 +119,13 @@ function ProductCard({
   description,
   categoryId,
   product_img,
-  reviews,
   ratings,
 }) {
   let history = useHistory();
 
   const onClickHandler = () => {
     history.push(`/shop/${_id}`);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -152,7 +151,7 @@ function ProductCard({
       <ProductDesc>
         <Paragraph>{description.slice(0, 200)}...</Paragraph>
       </ProductDesc>
-      <ProductAction>
+      {/* <ProductAction>
         <CardIcon>
           <i className="far fa-heart"></i>
         </CardIcon>
@@ -164,9 +163,9 @@ function ProductCard({
             <i className="fas fa-shopping-cart"></i>
           </CardIcon>
         </CartButton>
-      </ProductAction>
+      </ProductAction> */}
     </ProductCardWrapper>
   );
 }
 
-export default ProductCard;
+export default Recommendations;
