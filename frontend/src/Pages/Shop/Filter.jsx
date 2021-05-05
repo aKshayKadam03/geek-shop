@@ -87,37 +87,6 @@ const SliderInfo = styled.div`
   }
 `;
 
-const PrettoSlider = withStyles({
-  root: {
-    color: "#1171b1",
-    height: 8,
-  },
-  thumb: {
-    height: 24,
-    width: 24,
-    backgroundColor: "#fff",
-    border: "2px solid currentColor",
-    marginTop: -8,
-    marginLeft: -12,
-
-    "&:focus, &:hover, &$active": {
-      boxShadow: "inherit",
-    },
-  },
-  active: {},
-  valueLabel: {
-    left: "calc(-50% + 4px)",
-  },
-  track: {
-    height: 10,
-    borderRadius: 4,
-  },
-  rail: {
-    height: 8,
-    borderRadius: 4,
-  },
-})(Slider);
-
 function Filter({
   brands,
   categories,
@@ -169,18 +138,20 @@ function Filter({
           <SubHeadingTwo>Price</SubHeadingTwo>
         </SectionHead>
         <SectionItem>
-          <PrettoSlider
+          <Slider
             min={minPrice}
             max={maxPrice}
-            onChangeCommitted={(e, value) => setPriceLimit(value)}
+            value={priceLimit}
+            onChangeCommitted={(e, newValue) => setPriceLimit(newValue)}
+            valueLabelDisplay="auto"
           />
         </SectionItem>
         <SliderInfo>
           <div>
-            <Paragraph>₹ {minPrice}</Paragraph>
+            <Paragraph>₹ {priceLimit[0]}</Paragraph>
           </div>
           <div>
-            <Paragraph>₹ {maxPrice}</Paragraph>
+            <Paragraph>₹ {priceLimit[1]}</Paragraph>
           </div>
         </SliderInfo>
       </Section>

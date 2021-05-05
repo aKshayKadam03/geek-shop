@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { PageWrapper } from "../../Components/Global/Wrapper";
 import Filter from "./Filter";
+import { useHistory } from "react-router-dom";
 import {
   getProductsHandler,
   getCategoriesHandler,
@@ -9,9 +10,11 @@ import {
 } from "../../Redux/Products/action";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
-import { Paragraph } from "../../Components/Global/Typography";
+import { Paragraph, SubHeadingThree } from "../../Components/Global/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
+import Hero from "./Carousel";
+import { postCartHandler } from "../../Redux/CartWish/action";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,14 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const Catalog = styled.div`
-  height: 300px;
-  width: 100%;
-  background-color: yellow;
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -83,16 +78,24 @@ function Shop() {
   const categories = useSelector((state) => state.productReducer.categories);
   const minPrice = useSelector((state) => state.productReducer.minPrice);
   const maxPrice = useSelector((state) => state.productReducer.maxPrice);
+  const userData = useSelector((state) => state.authReducer.userData);
+  const isAuth = useSelector((state) => state.authReducer.isAuth);
 
-  const [priceLimit, setPriceLimit] = React.useState(90000);
+  const [priceLimit, setPriceLimit] = React.useState([0, 1000000000000]);
   const [brandsArray, setBrandsArray] = React.useState([]);
   const [categoriesArray, setCategoriesArray] = React.useState([]);
   const [allProducts, setAllProducts] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
 
+  const history = useHistory();
+
   React.useEffect(() => {
     setAllProducts(products);
   }, [products]);
+
+  React.useEffect(() => {
+    setPriceLimit([minPrice, maxPrice]);
+  }, [minPrice, maxPrice]);
 
   const onCategoryChangeHandler = (e) => {
     let arr = [];
@@ -146,9 +149,20 @@ function Shop() {
     dispatch(getBrandsHandler());
   }, []);
 
+  function addToCartHandler(productId) {
+    if (!isAuth) {
+      return history.push("/auth/login");
+    }
+    let payload = {
+      userId: userData?._id,
+      productId,
+    };
+    dispatch(postCartHandler(payload));
+  }
+
   return (
     <PageWrapper>
-      <Catalog></Catalog>
+      <Hero></Hero>
       <Container>
         <Filter
           minPrice={minPrice}
@@ -181,7 +195,11 @@ function Shop() {
           </SortingField>
           <ShopItems>
             {allProducts?.map((item) => (
-              <ProductCard key={item._id} {...item}></ProductCard>
+              <ProductCard
+                addToCartHandler={addToCartHandler}
+                key={item._id}
+                {...item}
+              ></ProductCard>
             ))}
           </ShopItems>
           <PaginationWapper>

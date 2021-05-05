@@ -6,7 +6,7 @@ const Category = require("../models/category.model");
 const { getAll } = require("../utils/collector");
 
 router.post("/", async (req, res) => {
-  let priceLimit = req.body.priceLimit || 100000000000000;
+  let [inComingMin, inComingMax] = req.body.priceLimit;
   let page = +req.query.page || 1;
   let size = 9;
   let offset = (page - 1) * size;
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   let products;
 
   products = await Product.find({
-    price: { $lte: priceLimit },
+    price: { $gte: inComingMin, $lte: inComingMax },
     categoryId: { $in: categoriesArray },
     brandId: { $in: brandsArray },
   })
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
 
   //total products
   totalProducts = await Product.find({
-    price: { $lte: priceLimit },
+    price: { $gte: inComingMin, $lte: inComingMax },
     categoryId: { $in: categoriesArray },
     brandId: { $in: brandsArray },
   })
@@ -89,13 +89,13 @@ router.get("/brand/:id", async (req, res) => {
 });
 
 router.get("/search/:searchQuery", async (req, res) => {
-  console.log(req.params.searchQuery);
   const product = await Product.find({
     product_name: {
       $regex: req.params.searchQuery,
       $options: "i",
     },
   })
+    .limit(5)
     .lean()
     .exec();
   res.status(200).json({ data: product });

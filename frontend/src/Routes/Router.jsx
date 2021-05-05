@@ -2,6 +2,8 @@ import { Switch, Route } from "react-router-dom";
 import Shop from "../Pages/Shop/Shop";
 import React from "react";
 import Solo from "../Pages/SoloProduct/Solo";
+import Auth from "../Pages/Auth/Auth";
+import { AntiPrivateRoute } from "./PrivateRoutes";
 
 function Router() {
   return (
@@ -15,6 +17,9 @@ function Router() {
       <Route path="/shop/:id">
         <Solo></Solo>
       </Route>
+      <AntiPrivateRoute path="/auth/:auth">
+        <Auth></Auth>
+      </AntiPrivateRoute>
     </Switch>
   );
 }

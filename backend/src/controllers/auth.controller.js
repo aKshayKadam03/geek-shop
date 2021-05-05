@@ -29,55 +29,39 @@ router.post(
   async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(400).send(result.array());
+      return res.status(401).json({ message: result.array()[0].param });
     }
     let user;
     try {
       user = await User.create(req.body);
       const token = newToken(user);
-      return res.status(201).send({ status: "success", token });
-    } catch (err) {
       return res
-        .status(500)
-        .send({ status: "failure", message: "user is already registered" });
-    }
-  }
-);
-
-router.post(
-  "/login",
-  body("email").isEmail().withMessage("Please enter a valid email address"),
-  body("password")
-    .trim()
-    .isLength({ min: 8 })
-    .withMessage("Password length should be 8 or more"),
-  async (req, res) => {
-    const result = validationResult(req);
-    if (!result.isEmpty()) {
-      return res.status(400).send(result.array());
-    }
-    let user;
-    try {
-      user = await User.findOne({ email: req.body.email }).exec();
-      if (!user) {
-        return res
-          .status(401)
-          .json({ error: "Email or Password is incorrect" });
-      }
-
-      const match = await user.checkPassword(req.body.password);
-
-      if (!match) {
-        return res
-          .status(401)
-          .json({ error: "Email or Password is incorrect" });
-      }
-      const token = newToken(user);
-      res.status(201).json({ status: "Success", token });
+        .status(201)
+        .send({ message: "success", userData: user, token });
     } catch (err) {
-      return res.status(500).json({ error: "Something went wrong" });
+      return res.status(500).send({ message: "registered" });
     }
   }
 );
+
+router.post("/login", async (req, res) => {
+  let user;
+  try {
+    user = await User.findOne({ email: req.body.email }).exec();
+    if (!user) {
+      return res.status(401).json({ message: "email or password incorrect" });
+    }
+
+    const match = await user.checkPassword(req.body.password);
+
+    if (!match) {
+      return res.status(401).json({ message: "email or password incorrect" });
+    }
+    const token = newToken(user);
+    res.status(201).json({ status: "Success", token, userData: user });
+  } catch (err) {
+    return res.status(500).json({ error: "wrong" });
+  }
+});
 
 module.exports = router;

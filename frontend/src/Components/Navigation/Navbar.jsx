@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { handleLogout } from "../../Redux/Auth/action";
+import Cart from "../Drawers/Cart";
 
 //icons
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
 
@@ -48,22 +49,20 @@ const SearchHolder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  position: relative;
+  background-color: #f6f6f6;
+  padding: 0px 15px;
+  border-radius: 5px;
   input {
     width: 100%;
     font-size: 18px;
-    padding: 10px 20px;
+    padding: 10px 10px;
     outline: none;
-    transition: all 1000ms ease;
-    max-width: 400px;
+    transition: all 700ms ease;
+    max-width: 1000px;
     border: none;
-    border-radius: 5px;
-    margin: 10px;
-    :focus {
-      background-color: #f6f6f6;
-      max-width: 1000px;
-      padding: 10px;
-    }
+    border: 1px solid #f6f6f6;
+    background-color: #f6f6f6;
   }
 
   @media (max-width: 1100px) {
@@ -114,57 +113,116 @@ const ActionsHolder = styled.div`
   }
 `;
 
-const SearchResults = styled.div``;
+const SearchResults = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  position: absolute;
+  max-width: 1000px;
+  top: 100%;
+  background: white;
+  border: 1px solid #f6f6f6;
+  border-top: none;
+  border-radius: 5px;
+  z-index: 400;
+`;
 
 function Navbar({ themeToggle }) {
   const [search, setSearch] = React.useState("");
+  const [searchModal, setSearchModal] = React.useState(false);
   const dispatch = useDispatch();
+  const [suggestions, setSuggestions] = React.useState([]);
+  const isAuth = useSelector((state) => state.authReducer.isAuth);
+  const [cartState, setCartState] = React.useState(false);
+
   let searchSuggestions = useSelector(
     (state) => state.productReducer.searchSuggestions
   );
+
+  function logoutHandler() {
+    dispatch(handleLogout());
+  }
+
+  React.useEffect(() => {
+    setSuggestions(searchSuggestions);
+  }, [searchSuggestions]);
+
   function onQuerySearchHandler() {
     if (search.trim() === "") {
+      setSuggestions([]);
+      setSearchModal(false);
       return;
     }
+    setSearchModal(true);
     dispatch(getSearchHandler(search));
   }
 
   React.useEffect(() => {
     onQuerySearchHandler();
-    console.log(searchSuggestions);
   }, [search]);
 
   return (
     <NavbarWrapper>
+      <Cart setCartState={setCartState} cartState={cartState}></Cart>
       <Navigation>
         <Logo>
           <Link to="/">Creative Systems</Link>
         </Logo>
         <SearchHolder status={search}>
-          <input placeholder="S e a r c h . . ."></input>
-          <SearchIcon />
-          <SearchResults>
-            {searchSuggestions?.map((item) => (
-              <SearchCard {...item} />
-            ))}
-          </SearchResults>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="S E A R C H . . ."
+          />
+          {searchModal ? (
+            <i onClick={() => setSearch("")} className="fas fa-times"></i>
+          ) : (
+            <i className="fas fa-search"></i>
+          )}
+
+          {searchModal && (
+            <SearchResults>
+              {suggestions?.map((item) => (
+                <SearchCard
+                  setSearchModal={setSearchModal}
+                  setSearch={setSearch}
+                  key={item._id}
+                  {...item}
+                />
+              ))}
+            </SearchResults>
+          )}
         </SearchHolder>
         <ActionsHolder>
           <div>
             <Link to="/shop">
               <GoToShop>
-                <span> Shop </span>
+                <span> Go To Shop </span>
               </GoToShop>
             </Link>
           </div>
           <div>
             <MenuOutlinedIcon fontSize="default" />
           </div>
-          <div onClick={themeToggle}>
-            <PersonOutlineOutlinedIcon fontSize="default" />
+          <div>
+            {isAuth ? (
+              <Link to="/">
+                <GoToShop onClick={logoutHandler}>
+                  <span> Logout </span>
+                </GoToShop>
+              </Link>
+            ) : (
+              <Link to="/auth/login">
+                <GoToShop>
+                  <span> Login </span>
+                </GoToShop>
+              </Link>
+            )}
           </div>
           <div>
-            <ShoppingCartOutlinedIcon fontSize="default" />
+            <ShoppingCartOutlinedIcon
+              onClick={() => setCartState(true)}
+              fontSize="large"
+            />
           </div>
         </ActionsHolder>
       </Navigation>

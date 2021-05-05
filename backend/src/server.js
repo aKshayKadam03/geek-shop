@@ -8,6 +8,8 @@ const categoryRouter = require("./controllers/category.controller");
 const brandRouter = require("./controllers/brand.controller");
 const reviewRouter = require("./controllers/review.controller");
 const authRouter = require("./controllers/auth.controller");
+const cartRouter = require("./controllers/cart.controller");
+const wishlistRouter = require("./controllers/wishlist.controller");
 
 app.use(cors());
 app.use(express.json());
@@ -17,6 +19,8 @@ app.use("/categories", categoryRouter);
 app.use("/brands", brandRouter);
 app.use("/reviews", reviewRouter);
 app.use("/auth", authRouter);
+app.use("/cart", cartRouter);
+app.use("/wishlist", wishlistRouter);
 
 async function start() {
   await connect();

@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     .populate("userId", { first_name: 1, last_name: 1, email: 1 })
     .lean()
     .exec();
-  console.log(user, product);
+
   res.status(200).json({ data: review });
 });
 

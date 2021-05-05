@@ -122,6 +122,7 @@ function ProductCard({
   product_img,
   reviews,
   ratings,
+  addToCartHandler,
 }) {
   let history = useHistory();
 
@@ -130,34 +131,35 @@ function ProductCard({
   };
 
   return (
-    <ProductCardWrapper onClick={onClickHandler}>
-      <ProductImg>
+    <ProductCardWrapper>
+      <ProductImg onClick={onClickHandler}>
         <img src={product_img} alt={product_name}></img>
       </ProductImg>
-
-      <ProductInfo>
-        <div>
+      <div onClick={onClickHandler}>
+        <ProductInfo>
           <div>
-            <ProductCategory>Ratings</ProductCategory>
-            {/* <span>Ratings</span> */}
+            <div>
+              <ProductCategory>Ratings</ProductCategory>
+              {/* <span>Ratings</span> */}
+            </div>
+            <Rating value={+ratings} readOnly></Rating>
           </div>
-          <Rating value={+ratings} readOnly></Rating>
-        </div>
-        <div>
-          <ProductPrice>{price}</ProductPrice>
-        </div>
-      </ProductInfo>
-      <ProductTitle>{product_name.slice(0, 20)}</ProductTitle>
-      {/* <ProductCategory>{categoryId.name}</ProductCategory> */}
-      <ProductDesc>
-        <Paragraph>{description.slice(0, 200)}...</Paragraph>
-      </ProductDesc>
+          <div>
+            <ProductPrice>{price}</ProductPrice>
+          </div>
+        </ProductInfo>
+        <ProductTitle>{product_name.slice(0, 20)}</ProductTitle>
+        {/* <ProductCategory>{categoryId.name}</ProductCategory> */}
+        <ProductDesc>
+          <Paragraph>{description.slice(0, 200)}...</Paragraph>
+        </ProductDesc>
+      </div>
       <ProductAction>
         <CardIcon>
           <i className="far fa-heart"></i>
         </CardIcon>
         <CartButton>
-          <div>
+          <div onClick={() => addToCartHandler(_id)}>
             <p>Add to Cart</p>
           </div>
           <CardIcon>
