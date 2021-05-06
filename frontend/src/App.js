@@ -3,7 +3,8 @@ import Router from "./Routes/Router";
 import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import Navbar from "./Components/Navigation/Navbar";
-import Shop from "./Pages/Shop/Shop";
+import Cart from "./Components/Drawers/Cart";
+import WishList from "./Components/Drawers/WishList";
 
 const theme = {
   light: {
@@ -26,6 +27,8 @@ const AppWrapper = styled.div`
 
 function App() {
   const [activeTheme, setActiveTheme] = React.useState("light");
+  const [cartState, setCartState] = React.useState(false);
+  const [wishlistState, setWishlistState] = React.useState(false);
 
   const themeToggle = () => {
     if (activeTheme === "light") {
@@ -38,8 +41,18 @@ function App() {
   return (
     <ThemeProvider theme={theme[activeTheme]}>
       <AppWrapper>
-        <Navbar themeToggle={themeToggle}></Navbar>
+        <Navbar
+          setCartState={setCartState}
+          cartState={cartState}
+          setWishlistState={setWishlistState}
+          wishlistState={wishlistState}
+        ></Navbar>
         <Router></Router>
+        <Cart setCartState={setCartState} cartState={cartState}></Cart>
+        <WishList
+          setWishlistState={setWishlistState}
+          wishlistState={wishlistState}
+        ></WishList>
       </AppWrapper>
     </ThemeProvider>
   );
