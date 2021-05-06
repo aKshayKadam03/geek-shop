@@ -4,6 +4,7 @@ import { Paragraph } from "../../Components/Global/Typography";
 import Rating from "@material-ui/lab/Rating";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
 import { useHistory } from "react-router";
 
 const ProductCardWrapper = styled.div`
@@ -85,19 +86,20 @@ const CardIcon = styled.div`
   background-color: #242525;
   padding: 10px 12px;
   border-radius: 50%;
-  color: white;
+  color: ${(props) => (props.color ? props.color : "#fff")};
   margin-left: 10px;
 `;
 
 const CartButton = styled.div`
-  background-color: ${(props) => props.theme.btnBackground};
+  background-color: ${(props) =>
+    props.status ? "#a5d61c" : props.theme.btnBackground};
   padding: 8px 10px;
   border-radius: 10px;
   min-width: 180px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: white;
+  color: ${(props) => (props.status ? "#000" : "#fff")};
   font-size: 14px;
   text-transform: uppercase;
   font-weight: 600;
@@ -123,6 +125,10 @@ function ProductCard({
   reviews,
   ratings,
   addToCartHandler,
+  productsInCart,
+  addToWishlistHandler,
+  productsInWishlist,
+  removeFromWishlistHandler,
 }) {
   let history = useHistory();
 
@@ -155,17 +161,35 @@ function ProductCard({
         </ProductDesc>
       </div>
       <ProductAction>
-        <CardIcon>
-          <i className="far fa-heart"></i>
-        </CardIcon>
-        <CartButton>
-          <div onClick={() => addToCartHandler(_id)}>
-            <p>Add to Cart</p>
-          </div>
-          <CardIcon>
-            <i className="fas fa-shopping-cart"></i>
+        {productsInWishlist.includes(_id) ? (
+          <CardIcon color="red" onClick={() => removeFromWishlistHandler(_id)}>
+            <i className="far fa-heart"></i>
           </CardIcon>
-        </CartButton>
+        ) : (
+          <CardIcon onClick={() => addToWishlistHandler(_id)}>
+            <i className="far fa-heart"></i>
+          </CardIcon>
+        )}
+
+        {productsInCart.includes(_id) ? (
+          <CartButton color="red">
+            <div>
+              <p>Go To Checkout</p>
+            </div>
+            <CardIcon color="red">
+              <i className="fas fa-shopping-bag"></i>
+            </CardIcon>
+          </CartButton>
+        ) : (
+          <CartButton onClick={() => addToCartHandler(_id)}>
+            <div>
+              <p>Add to Cart</p>
+            </div>
+            <CardIcon>
+              <i className="fas fa-shopping-cart"></i>
+            </CardIcon>
+          </CartButton>
+        )}
       </ProductAction>
     </ProductCardWrapper>
   );

@@ -14,7 +14,13 @@ import { Paragraph, SubHeadingThree } from "../../Components/Global/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import Hero from "./Carousel";
-import { postCartHandler } from "../../Redux/CartWish/action";
+import {
+  getCartHandler,
+  postCartHandler,
+  getWishlistHandler,
+  postWishlistHandler,
+  deleteWishlistHandler,
+} from "../../Redux/CartWish/action";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +86,13 @@ function Shop() {
   const maxPrice = useSelector((state) => state.productReducer.maxPrice);
   const userData = useSelector((state) => state.authReducer.userData);
   const isAuth = useSelector((state) => state.authReducer.isAuth);
+  const wishlistArray = useSelector((state) => state.cartWishReducer.wishlist);
+  const productsInCart = useSelector(
+    (state) => state.cartWishReducer.uniqueCart
+  );
+  const productsInWishlist = useSelector(
+    (state) => state.cartWishReducer.uniqueWishlist
+  );
 
   const [priceLimit, setPriceLimit] = React.useState([0, 1000000000000]);
   const [brandsArray, setBrandsArray] = React.useState([]);
@@ -157,7 +170,30 @@ function Shop() {
       userId: userData?._id,
       productId,
     };
-    dispatch(postCartHandler(payload));
+    dispatch(postCartHandler(payload)).then((res) =>
+      dispatch(getCartHandler(userData._id))
+    );
+  }
+  function addToWishlistHandler(productId) {
+    if (!isAuth) {
+      return history.push("/auth/login");
+    }
+    let payload = {
+      userId: userData?._id,
+      productId,
+    };
+    dispatch(postWishlistHandler(payload)).then((res) =>
+      dispatch(getWishlistHandler(userData._id))
+    );
+  }
+  function removeFromWishlistHandler(productId) {
+    let wishlistSolo = wishlistArray.find(
+      (item) => item.productId._id === productId
+    );
+    console.log(wishlistSolo, "wishlist");
+    dispatch(deleteWishlistHandler(wishlistSolo?._id)).then((res) =>
+      dispatch(getWishlistHandler(userData._id))
+    );
   }
 
   return (
@@ -196,7 +232,11 @@ function Shop() {
           <ShopItems>
             {allProducts?.map((item) => (
               <ProductCard
+                removeFromWishlistHandler={removeFromWishlistHandler}
                 addToCartHandler={addToCartHandler}
+                productsInCart={productsInCart}
+                addToWishlistHandler={addToWishlistHandler}
+                productsInWishlist={productsInWishlist}
                 key={item._id}
                 {...item}
               ></ProductCard>
