@@ -91,7 +91,6 @@ export const productReducer = (state = initState, { type, data }) => {
       return { ...state, isLoading: true };
 
     case actionTypes.GET_RECOMMENDATIONS_SUCCESS:
-      console.log(data, "recommend");
       return {
         ...state,
         isLoading: false,
@@ -105,7 +104,6 @@ export const productReducer = (state = initState, { type, data }) => {
       return { ...state, isLoading: true };
 
     case actionTypes.GET_FROM_SAME_BRAND_SUCCESS:
-      console.log(data, "recommend");
       return {
         ...state,
         isLoading: false,
@@ -119,7 +117,6 @@ export const productReducer = (state = initState, { type, data }) => {
       return { ...state, isLoading: true };
 
     case actionTypes.GET_SEARCH_SUCCESS:
-      console.log(data, "recommend");
       return {
         ...state,
         isLoading: false,

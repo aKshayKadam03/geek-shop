@@ -1,12 +1,26 @@
+import { deleteData, getData, storeData } from "../../Utils/persistUser";
 import * as actionTypes from "./actionType";
+let initState;
 
-const initState = {
-  isLoading: false,
-  isError: false,
-  isAuth: false,
-  userData: {},
-  status: 0,
-};
+let localUser = getData();
+
+if (localUser !== null) {
+  initState = {
+    isLoading: false,
+    isError: false,
+    isAuth: true,
+    userData: localUser,
+    status: 0,
+  };
+} else {
+  initState = {
+    isLoading: false,
+    isError: false,
+    isAuth: false,
+    userData: {},
+    status: 0,
+  };
+}
 
 export const authReducer = (state = initState, { type, data, status }) => {
   switch (type) {
@@ -14,6 +28,7 @@ export const authReducer = (state = initState, { type, data, status }) => {
       return { ...state, isError: false, isLoading: true, isAuth: false };
 
     case actionTypes.GET_LOGIN_SUCCESS:
+      storeData(data.userData);
       return {
         ...state,
         isLoading: false,
@@ -24,7 +39,6 @@ export const authReducer = (state = initState, { type, data, status }) => {
       };
 
     case actionTypes.GET_LOGIN_FAILURE:
-      console.log(status);
       return {
         ...state,
         isLoading: false,
@@ -37,6 +51,7 @@ export const authReducer = (state = initState, { type, data, status }) => {
       return { ...state, isError: false, isLoading: true, isAuth: false };
 
     case actionTypes.GET_SIGNUP_SUCCESS:
+      storeData(data.userData);
       return {
         ...state,
         isLoading: false,
@@ -56,6 +71,7 @@ export const authReducer = (state = initState, { type, data, status }) => {
       };
 
     case actionTypes.HANDLE_LOGOUT:
+      deleteData();
       return {
         ...state,
         isLoading: false,
