@@ -3,7 +3,7 @@ const router = express.Router();
 const Cart = require("../models/cart.model");
 
 router.get("/:userId", async (req, res) => {
-  let cart = await Cart.find({ "userId ": req.params.userId })
+  let cart = await Cart.find({ userId: req.params.userId })
     .populate("productId")
     .lean()
     .exec();
@@ -12,7 +12,7 @@ router.get("/:userId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   let cart = await Cart.create(req.body);
-  res.status(201).json({ data: cart });
+  return res.status(201).json({ data: cart });
 });
 
 router.delete("/:id", async (req, res) => {

@@ -3,15 +3,17 @@ const router = express.Router();
 const Wishlist = require("../models/wishlist.model");
 
 router.get("/:userId", async (req, res) => {
-  let wishlist = await Wishlist.find({ "userId ": req.params.userId })
+  let wishlist = await Wishlist.find({ userId: req.params.userId })
     .populate("productId")
     .lean()
     .exec();
+  console.log(wishlist);
   res.status(200).json({ data: wishlist });
 });
 
 router.post("/", async (req, res) => {
   let wishlist = await Wishlist.create(req.body);
+
   res.status(201).json({ data: wishlist });
 });
 
