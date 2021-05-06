@@ -4,15 +4,21 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "../../Redux/Auth/action";
 import Cart from "../Drawers/Cart";
+import Badge from "@material-ui/core/Badge";
 
 //icons
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 import { getSearchHandler } from "../../Redux/Products/action";
 import SearchCard from "./SearchCard";
+import {
+  getCartHandler,
+  getWishlistHandler,
+} from "../../Redux/CartWish/action";
 
 const NavbarWrapper = styled.div`
   display: flex;
@@ -70,7 +76,7 @@ const SearchHolder = styled.div`
   }
 `;
 
-const GoToShop = styled.button`
+const NavButton = styled.button`
   background-color: ${(props) => props.theme.btnBackground};
   color: white;
   border: none;
@@ -83,6 +89,20 @@ const GoToShop = styled.button`
   border: 1px solid ${(props) => props.theme.btnBackground};
   :hover {
     background-color: white;
+    color: ${(props) => props.theme.btnBackground};
+  }
+`;
+const NavItem = styled.button`
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 80px;
+  background-color: white;
+  border: 1px solid ${(props) => props.theme.btnBackground};
+  :hover {
     color: ${(props) => props.theme.btnBackground};
   }
 `;
@@ -126,13 +146,16 @@ const SearchResults = styled.div`
   z-index: 400;
 `;
 
-function Navbar({ themeToggle }) {
+function Navbar({ setCartState, setWishlistState }) {
   const [search, setSearch] = React.useState("");
   const [searchModal, setSearchModal] = React.useState(false);
-  const dispatch = useDispatch();
   const [suggestions, setSuggestions] = React.useState([]);
+
+  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.authReducer.isAuth);
-  const [cartState, setCartState] = React.useState(false);
+  const userData = useSelector((state) => state.authReducer.userData);
+  const cartArray = useSelector((state) => state.cartWishReducer.cart);
+  const wishlistArray = useSelector((state) => state.cartWishReducer.wishlist);
 
   let searchSuggestions = useSelector(
     (state) => state.productReducer.searchSuggestions
@@ -141,6 +164,13 @@ function Navbar({ themeToggle }) {
   function logoutHandler() {
     dispatch(handleLogout());
   }
+
+  React.useEffect(() => {
+    if (isAuth) {
+      dispatch(getCartHandler(userData._id));
+      dispatch(getWishlistHandler(userData._id));
+    }
+  }, [isAuth]);
 
   React.useEffect(() => {
     setSuggestions(searchSuggestions);
@@ -162,7 +192,6 @@ function Navbar({ themeToggle }) {
 
   return (
     <NavbarWrapper>
-      <Cart setCartState={setCartState} cartState={cartState}></Cart>
       <Navigation>
         <Logo>
           <Link to="/">Creative Systems</Link>
@@ -195,34 +224,47 @@ function Navbar({ themeToggle }) {
         <ActionsHolder>
           <div>
             <Link to="/shop">
-              <GoToShop>
-                <span> Go To Shop </span>
-              </GoToShop>
+              <NavItem>SHOP</NavItem>
             </Link>
           </div>
           <div>
             <MenuOutlinedIcon fontSize="default" />
           </div>
+
           <div>
-            {isAuth ? (
-              <Link to="/">
-                <GoToShop onClick={logoutHandler}>
-                  <span> Logout </span>
-                </GoToShop>
-              </Link>
-            ) : (
-              <Link to="/auth/login">
-                <GoToShop>
-                  <span> Login </span>
-                </GoToShop>
-              </Link>
+            {isAuth && (
+              <Badge badgeContent={wishlistArray.length} color="primary">
+                <FavoriteBorderIcon
+                  onClick={() => setWishlistState(true)}
+                  fontSize="default"
+                />
+              </Badge>
             )}
           </div>
           <div>
-            <ShoppingCartOutlinedIcon
-              onClick={() => setCartState(true)}
-              fontSize="large"
-            />
+            {isAuth && (
+              <Badge badgeContent={cartArray.length} color="primary">
+                <ShoppingCartOutlinedIcon
+                  onClick={() => setCartState(true)}
+                  fontSize="default"
+                />
+              </Badge>
+            )}
+          </div>
+          <div>
+            {isAuth ? (
+              <Link to="/">
+                <NavButton onClick={logoutHandler}>
+                  <span> Logout </span>
+                </NavButton>
+              </Link>
+            ) : (
+              <Link to="/auth/login">
+                <NavButton>
+                  <span> Login </span>
+                </NavButton>
+              </Link>
+            )}
           </div>
         </ActionsHolder>
       </Navigation>
