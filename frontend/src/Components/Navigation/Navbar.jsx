@@ -233,7 +233,7 @@ function Navbar({ setCartState, setWishlistState }) {
 
           <div>
             {isAuth && (
-              <Badge badgeContent={wishlistArray.length} color="primary">
+              <Badge badgeContent={wishlistArray.length} color="error">
                 <FavoriteBorderIcon
                   onClick={() => setWishlistState(true)}
                   fontSize="default"
@@ -243,7 +243,7 @@ function Navbar({ setCartState, setWishlistState }) {
           </div>
           <div>
             {isAuth && (
-              <Badge badgeContent={cartArray.length} color="primary">
+              <Badge badgeContent={cartArray.length} color="error">
                 <ShoppingCartOutlinedIcon
                   onClick={() => setCartState(true)}
                   fontSize="default"

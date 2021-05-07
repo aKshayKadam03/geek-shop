@@ -10,7 +10,6 @@ const initState = {
 
 function Login() {
   const [formData, setFormData] = React.useState(initState);
-  const [message, setMessage] = React.useState(false);
   const isLoading = useSelector((state) => state.authReducer.isLoading);
   const isError = useSelector((state) => state.authReducer.isError);
   const isAuth = useSelector((state) => state.authReducer.isAuth);

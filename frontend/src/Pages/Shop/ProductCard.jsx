@@ -129,6 +129,7 @@ function ProductCard({
   addToWishlistHandler,
   productsInWishlist,
   removeFromWishlistHandler,
+  onCheckoutHandler,
 }) {
   let history = useHistory();
 
@@ -172,7 +173,7 @@ function ProductCard({
         )}
 
         {productsInCart.includes(_id) ? (
-          <CartButton color="red">
+          <CartButton onClick={onCheckoutHandler} color="red">
             <div>
               <p>Go To Checkout</p>
             </div>

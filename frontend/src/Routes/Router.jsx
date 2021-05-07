@@ -3,7 +3,8 @@ import Shop from "../Pages/Shop/Shop";
 import React from "react";
 import Solo from "../Pages/SoloProduct/Solo";
 import Auth from "../Pages/Auth/Auth";
-import { AntiPrivateRoute } from "./PrivateRoutes";
+import { AntiPrivateRoute, PrivateRoute } from "./PrivateRoutes";
+import Checkout from "../Pages/Checkout/Checkout";
 
 function Router() {
   return (
@@ -17,6 +18,9 @@ function Router() {
       <Route path="/shop/:id">
         <Solo></Solo>
       </Route>
+      <PrivateRoute path="/checkout">
+        <Checkout></Checkout>
+      </PrivateRoute>
       <AntiPrivateRoute path="/auth/:auth">
         <Auth></Auth>
       </AntiPrivateRoute>

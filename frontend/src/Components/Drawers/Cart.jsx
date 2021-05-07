@@ -3,6 +3,7 @@ import Drawer from "@material-ui/core/Drawer";
 import ClearIcon from "@material-ui/icons/Clear";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import CartCard from "./CartCard";
 import { cartSubTotalCalculator } from "../../Utils/cartCalculator";
 import {
@@ -78,7 +79,7 @@ function Cart({ cartState, setCartState }) {
   const cartArray = useSelector((state) => state.cartWishReducer.cart);
   const userData = useSelector((state) => state.authReducer.userData);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   React.useEffect(() => {
     if (cartArray.length === 0) {
       setCartState(false);
@@ -92,6 +93,10 @@ function Cart({ cartState, setCartState }) {
     dispatch(deleteCartHandler(id)).then((res) =>
       dispatch(getCartHandler(userData._id))
     );
+  }
+
+  function onCheckoutHandler() {
+    history.push("/checkout");
   }
 
   return (
@@ -116,7 +121,9 @@ function Cart({ cartState, setCartState }) {
             <p>₹ {cartSubTotalCalculator(cartArray)}</p>
           </div>
           <div>
-            <CheckOutButton>Checkout</CheckOutButton>
+            <CheckOutButton onClick={onCheckoutHandler}>
+              Checkout
+            </CheckOutButton>
           </div>
         </CartFooter>
       </CartWrapper>

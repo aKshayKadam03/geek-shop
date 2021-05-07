@@ -7,7 +7,7 @@ const CardWrapper = styled.div`
   display: flex;
 
   align-items: center;
-  border: 1px solid #e6e1e1;
+  border-bottom: 1px solid #e6e1e1;
   margin: 20px auto;
   padding: 10px;
   > div {
@@ -62,7 +62,7 @@ function CartCard({ _id, productId, onDeleteHandler }) {
         <img src={product_img} alt={product_name}></img>
       </div>
       <div>
-        <h4>{product_name.slice(0, 20) + "..."}</h4>
+        <h4>{product_name.slice(0, 50) + "..."}</h4>
         <ProductPrice>{price}</ProductPrice>
       </div>
     </CardWrapper>

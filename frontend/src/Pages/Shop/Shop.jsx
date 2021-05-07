@@ -195,6 +195,9 @@ function Shop() {
       dispatch(getWishlistHandler(userData._id))
     );
   }
+  function onCheckoutHandler() {
+    history.push("/checkout");
+  }
 
   return (
     <PageWrapper>
@@ -232,6 +235,7 @@ function Shop() {
           <ShopItems>
             {allProducts?.map((item) => (
               <ProductCard
+                onCheckoutHandler={onCheckoutHandler}
                 removeFromWishlistHandler={removeFromWishlistHandler}
                 addToCartHandler={addToCartHandler}
                 productsInCart={productsInCart}

@@ -2,7 +2,7 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-
+import ClearIcon from "@material-ui/icons/Clear";
 import {
   deleteWishlistHandler,
   getCartHandler,
@@ -10,10 +10,7 @@ import {
   postCartHandler,
   uniqueWishlistProductsHandler,
 } from "../../Redux/CartWish/action";
-import {
-  cartDuplicateHandler,
-  wishlistDuplicateHandler,
-} from "../../Utils/duplicateHandler";
+import { wishlistDuplicateHandler } from "../../Utils/duplicateHandler";
 
 const WishlistWrapper = styled.div`
   height: 400px;
@@ -21,7 +18,13 @@ const WishlistWrapper = styled.div`
   padding: 20px;
 `;
 
-const WishlistHead = styled.div``;
+const WishlistHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #cecaca;
+  letter-spacing: 0.2ch;
+`;
 
 const WishlistBody = styled.div`
   display: flex;
@@ -38,6 +41,7 @@ const WishlistCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 300px;
   height: 300px;
   margin-right: 20px;
   align-items: center;
@@ -49,6 +53,7 @@ const WishlistCard = styled.div`
   }
   img {
     width: 200px;
+    height: 150px;
     object-fit: contain;
   }
 `;
@@ -106,7 +111,15 @@ function WishList({ wishlistState, setWishlistState }) {
     >
       <WishlistWrapper>
         <WishlistHead>
-          <h1>Wishlist</h1>
+          <div>
+            <h1>Cart</h1>
+          </div>
+          <div>
+            <ClearIcon
+              fontSize="large"
+              onClick={() => setWishlistState(false)}
+            />
+          </div>
         </WishlistHead>
         <WishlistBody>
           {wishlistArray?.map((item) => (
