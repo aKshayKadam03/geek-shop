@@ -10,6 +10,7 @@ const reviewRouter = require("./controllers/review.controller");
 const authRouter = require("./controllers/auth.controller");
 const cartRouter = require("./controllers/cart.controller");
 const wishlistRouter = require("./controllers/wishlist.controller");
+const ordersRouter = require("./controllers/order.controller");
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/reviews", reviewRouter);
 app.use("/auth", authRouter);
 app.use("/cart", cartRouter);
 app.use("/wishlist", wishlistRouter);
+app.use("/orders", ordersRouter);
 
 async function start() {
   await connect();

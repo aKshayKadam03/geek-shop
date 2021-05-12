@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCartHandler, getCartHandler } from "../../Redux/CartWish/action";
 import { cartSubTotalCalculator } from "../../Utils/cartCalculator";
 import CheckoutForm from "./CheckoutForm";
+import StripeCheckout from "react-stripe-checkout";
+import Payment from "./Payment";
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -39,7 +41,7 @@ const ColorlibConnector = withStyles({
 })(StepConnector);
 
 const CheckoutWrapper = styled.div`
-  min-height: 100vh;
+  /* min-height: 100vh; */
 `;
 
 const CheckoutMain = styled.div`
@@ -47,7 +49,7 @@ const CheckoutMain = styled.div`
   min-height: 70vh;
   margin: 5vh auto;
   border-radius: 10px;
-  box-shadow: 8px 8px 16px #c9c5c5;
+  /* box-shadow: 8px 8px 16px #c9c5c5; */
   padding: 20px;
 `;
 
@@ -67,9 +69,14 @@ const initState = {
   pin: "",
   state: "",
 };
+
 function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [formData, setFormData] = React.useState(initState);
+  const [price, setPrice] = React.useState(0);
+  const [discount, setDiscount] = React.useState(0);
+  const [totalPrice, setTotalPrice] = React.useState(0);
+
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cartWishReducer.cart);
   const userData = useSelector((state) => state.authReducer.userData);
@@ -106,14 +113,26 @@ function Checkout() {
               setActiveStep={setActiveStep}
               onDeleteHandler={onDeleteHandler}
               cart={cart}
+              price={price}
+              setPrice={setPrice}
+              discount={discount}
+              setDiscount={setDiscount}
+              totalPrice={totalPrice}
+              setTotalPrice={setTotalPrice}
             />
-          ) : (
+          ) : activeStep === 1 ? (
             <CheckoutForm
               initState={initState}
               formData={formData}
               setFormData={setFormData}
               setActiveStep={setActiveStep}
             />
+          ) : (
+            <Payment
+              formData={formData}
+              setActiveStep={setActiveStep}
+              totalPrice={totalPrice}
+            ></Payment>
           )}
         </CheckoutBody>
       </CheckoutMain>

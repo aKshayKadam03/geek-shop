@@ -83,8 +83,6 @@ function Cart({ cartState, setCartState }) {
   React.useEffect(() => {
     if (cartArray.length === 0) {
       setCartState(false);
-    } else {
-      setCartState(true);
     }
     dispatch(uniqueCartProductsHandler(cartDuplicateHandler(cartArray)));
   }, [cartArray]);
@@ -96,6 +94,9 @@ function Cart({ cartState, setCartState }) {
   }
 
   function onCheckoutHandler() {
+    if (cartArray.length === 0) {
+      return alert("Your cart is empty");
+    }
     history.push("/checkout");
   }
 
@@ -111,9 +112,13 @@ function Cart({ cartState, setCartState }) {
           </div>
         </CartHead>
         <CartBody>
-          {cartArray?.map((item) => (
-            <CartCard onDeleteHandler={onDeleteHandler} {...item}></CartCard>
-          ))}
+          {cartArray.length === 0 ? (
+            <h2>It's so empty here</h2>
+          ) : (
+            cartArray?.map((item) => (
+              <CartCard onDeleteHandler={onDeleteHandler} {...item}></CartCard>
+            ))
+          )}
         </CartBody>
         <CartFooter>
           <div>
@@ -122,7 +127,7 @@ function Cart({ cartState, setCartState }) {
           </div>
           <div>
             <CheckOutButton onClick={onCheckoutHandler}>
-              Checkout
+              Go To Cart
             </CheckOutButton>
           </div>
         </CartFooter>

@@ -6,6 +6,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
 const ProductCardWrapper = styled.div`
   width: 31%;
@@ -132,7 +133,7 @@ function ProductCard({
   onCheckoutHandler,
 }) {
   let history = useHistory();
-
+  const isAuth = useSelector((state) => state.authReducer.isAuth);
   const onClickHandler = () => {
     history.push(`/shop/${_id}`);
   };
@@ -162,7 +163,7 @@ function ProductCard({
         </ProductDesc>
       </div>
       <ProductAction>
-        {productsInWishlist.includes(_id) ? (
+        {isAuth && productsInWishlist.includes(_id) ? (
           <CardIcon color="red" onClick={() => removeFromWishlistHandler(_id)}>
             <i className="far fa-heart"></i>
           </CardIcon>
@@ -172,10 +173,10 @@ function ProductCard({
           </CardIcon>
         )}
 
-        {productsInCart.includes(_id) ? (
+        {isAuth && productsInCart.includes(_id) ? (
           <CartButton onClick={onCheckoutHandler} color="red">
             <div>
-              <p>Go To Checkout</p>
+              <p>Go to Cart</p>
             </div>
             <CardIcon color="red">
               <i className="fas fa-shopping-bag"></i>

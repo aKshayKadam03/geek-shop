@@ -192,3 +192,32 @@ export const uniqueWishlistProductsHandler = (data) => {
     data,
   };
 };
+
+//empty cart
+
+const emptyCartRequest = () => {
+  return {
+    type: actionTypes.EMPTY_CART_REQUEST,
+  };
+};
+
+const emptyCartSuccess = (data) => {
+  return {
+    type: actionTypes.EMPTY_CART_SUCCESS,
+    data,
+  };
+};
+
+const emptyCartFailure = () => {
+  return {
+    type: actionTypes.EMPTY_CART_FAILURE,
+  };
+};
+
+export const emptyCartHandler = (id) => (dispatch) => {
+  dispatch(emptyCartRequest());
+  return axios
+    .delete(`http://localhost:8000/cart/bulk/${id}`)
+    .then((res) => dispatch(emptyCartSuccess()))
+    .catch((err) => dispatch(emptyCartFailure()));
+};

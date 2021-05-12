@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "../../Redux/Auth/action";
-import Cart from "../Drawers/Cart";
 import Badge from "@material-ui/core/Badge";
+import Drawer from "@material-ui/core/Drawer";
 
 //icons
 import SearchIcon from "@material-ui/icons/Search";
@@ -70,8 +70,7 @@ const SearchHolder = styled.div`
     border: 1px solid #f6f6f6;
     background-color: #f6f6f6;
   }
-
-  @media (max-width: 1100px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
@@ -101,7 +100,8 @@ const NavItem = styled.button`
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-width: 80px;
   background-color: white;
-  border: 1px solid ${(props) => props.theme.btnBackground};
+  transition: all 500ms ease;
+  border: 1px solid #eeecec;
   :hover {
     color: ${(props) => props.theme.btnBackground};
   }
@@ -111,25 +111,16 @@ const ActionsHolder = styled.div`
   flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-
-  > div:nth-child(2) {
-    display: none;
-    @media (max-width: 1100px) {
-      display: inline;
-    }
-  }
-  div:nth-child(3) {
-    display: inline;
-    @media (max-width: 1100px) {
-      display: none;
-    }
-  }
+  justify-content: center;
   > div {
-    > i {
-      font-size: 21px;
-    }
-    margin: 0 20px;
+    margin: ${(props) => props.margin};
+  }
+`;
+
+const HamburgerMenu = styled.div`
+  display: none;
+  @media (max-width: 1100px) {
+    display: inline;
   }
 `;
 
@@ -137,7 +128,6 @@ const SearchResults = styled.div`
   width: 100%;
   margin: 0 auto;
   position: absolute;
-  max-width: 1000px;
   top: 100%;
   background: white;
   border: 1px solid #f6f6f6;
@@ -150,7 +140,7 @@ function Navbar({ setCartState, setWishlistState }) {
   const [search, setSearch] = React.useState("");
   const [searchModal, setSearchModal] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
-
+  const [menuState, setMenuState] = React.useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.authReducer.isAuth);
   const userData = useSelector((state) => state.authReducer.userData);
@@ -164,6 +154,10 @@ function Navbar({ setCartState, setWishlistState }) {
   function logoutHandler() {
     dispatch(handleLogout());
   }
+
+  React.useEffect(() => {
+    console.log(menuState, "Menu State");
+  }, [menuState]);
 
   React.useEffect(() => {
     if (isAuth) {
@@ -221,14 +215,11 @@ function Navbar({ setCartState, setWishlistState }) {
             </SearchResults>
           )}
         </SearchHolder>
-        <ActionsHolder>
+        <ActionsHolder margin={isAuth ? "20px" : "5px"}>
           <div>
             <Link to="/shop">
               <NavItem>SHOP</NavItem>
             </Link>
-          </div>
-          <div>
-            <MenuOutlinedIcon fontSize="default" />
           </div>
 
           <div>
@@ -267,6 +258,9 @@ function Navbar({ setCartState, setWishlistState }) {
             )}
           </div>
         </ActionsHolder>
+        <HamburgerMenu onClick={() => setMenuState(true)}>
+          <MenuOutlinedIcon fontSize="large" />
+        </HamburgerMenu>
       </Navigation>
     </NavbarWrapper>
   );

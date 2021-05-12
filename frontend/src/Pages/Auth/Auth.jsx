@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const AuthWrapper = styled.div`
   position: relative;
-  min-height: 100vh;
+  min-height: 80vh;
   transition: all 500ms ease;
 `;
 
@@ -16,8 +16,8 @@ const AuthSection = styled.div`
   min-height: 70vh;
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 40%;
+  transform: translate(-50%, -30%);
   display: flex;
   flex-direction: column;
   width: 100%;

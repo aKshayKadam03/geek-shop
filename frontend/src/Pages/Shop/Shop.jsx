@@ -132,12 +132,12 @@ function Shop() {
     setBrandsArray(arr);
   };
 
-  function clearCheckbox(className) {
-    let element = document.getElementsByClassName(className);
-    for (let i = 0; i < element.length; i++) {
-      element[i].checked = false;
-    }
-  }
+  // function clearCheckbox(className) {
+  //   let element = document.getElementsByClassName(className);
+  //   for (let i = 0; i < element.length; i++) {
+  //     element[i].checked = false;
+  //   }
+  // }
 
   function getProducts() {
     let payload = {
@@ -190,7 +190,7 @@ function Shop() {
     let wishlistSolo = wishlistArray.find(
       (item) => item.productId._id === productId
     );
-    console.log(wishlistSolo, "wishlist");
+
     dispatch(deleteWishlistHandler(wishlistSolo?._id)).then((res) =>
       dispatch(getWishlistHandler(userData._id))
     );

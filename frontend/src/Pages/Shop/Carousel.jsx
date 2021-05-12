@@ -36,8 +36,7 @@ const data = [
   },
   {
     tag: "Join the master race",
-    img:
-      "https://i.pinimg.com/originals/c7/49/ee/c749eeef2d1dbb42a71b2b5313e3dce9.jpg",
+    img: "https://i.pinimg.com/originals/c7/49/ee/c749eeef2d1dbb42a71b2b5313e3dce9.jpg",
   },
 ];
 

@@ -6,10 +6,12 @@ import orderImage from "../../Images/order.svg";
 export const Form = styled.form`
   display: flex;
   width: 100%;
+
   > div {
     width: 45%;
     margin: 20px;
     margin: 0 auto;
+    min-width: 400px;
   }
   > div:nth-child(1) {
     > div {
@@ -45,7 +47,7 @@ export const Form = styled.form`
 
 const SubmitButton = styled.button`
   background-color: ${(props) => props.theme.btnBackground};
-  min-width: 250px;
+  min-width: 140px;
   width: 45%;
   color: white;
   margin: 10px 0 0;
@@ -69,8 +71,8 @@ function CheckoutForm({ setActiveStep, formData, setFormData }) {
   }
 
   function onSubmitHandler(e) {
-    // e.preventDefault();
-    console.log(formData);
+    e.preventDefault();
+    setActiveStep(3);
   }
 
   const { name, email, address, pin, city, state } = formData;
@@ -135,12 +137,10 @@ function CheckoutForm({ setActiveStep, formData, setFormData }) {
             />
           </div>
           <div>
-            <SubmitButton onClick={() => setActiveStep(0)} type="button">
+            <SubmitButton type="button" onClick={() => setActiveStep(0)}>
               Back
             </SubmitButton>
-            <SubmitButton onClick={() => setActiveStep(2)} type="button">
-              Next
-            </SubmitButton>
+            <SubmitButton>Next</SubmitButton>
           </div>
         </div>
       </Form>

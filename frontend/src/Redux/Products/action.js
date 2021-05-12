@@ -132,13 +132,41 @@ const getProductReviewFailure = () => {
   };
 };
 
-export const getProductReviewHandler = (payload) => (dispatch) => {
+export const getProductReviewHandler = (id) => (dispatch) => {
   dispatch(getProductReviewRequest());
-
   return axios
-    .post(`http://localhost:8000/reviews`, payload)
+    .get(`http://localhost:8000/reviews/${id}`)
     .then((res) => dispatch(getProductReviewSuccess(res.data)))
     .catch((err) => dispatch(getProductReviewFailure()));
+};
+
+//posting reviews for a product
+
+const postProductReviewRequest = () => {
+  return {
+    type: actionTypes.POST_PRODUCT_REVIEWS_REQUEST,
+  };
+};
+
+const postProductReviewSuccess = () => {
+  return {
+    type: actionTypes.POST_PRODUCT_REVIEWS_SUCCESS,
+  };
+};
+
+const postProductReviewFailure = () => {
+  return {
+    type: actionTypes.POST_PRODUCT_REVIEWS_FAILURE,
+  };
+};
+
+export const postProductReviewHandler = (payload) => (dispatch) => {
+  dispatch(postProductReviewRequest());
+
+  return axios
+    .post(`http://localhost:8000/reviews/post`, payload)
+    .then((res) => dispatch(postProductReviewSuccess(res.data)))
+    .catch((err) => dispatch(postProductReviewFailure()));
 };
 
 // getting recommendations
@@ -226,4 +254,33 @@ export const getSearchHandler = (query) => (dispatch) => {
     .get(`http://localhost:8000/products/search/${query}`)
     .then((res) => dispatch(getSearchSuccess(res.data)))
     .catch((err) => dispatch(getSearchFailure()));
+};
+
+//for home
+
+const getProductsHomeRequest = () => {
+  return {
+    type: actionTypes.GET_PRODUCTS_HOME_REQUEST,
+  };
+};
+
+const getProductsHomeSuccess = (data) => {
+  return {
+    type: actionTypes.GET_PRODUCTS_HOME_SUCCESS,
+    data,
+  };
+};
+
+const getProductsHomeFailure = () => {
+  return {
+    type: actionTypes.GET_PRODUCTS_HOME_FAILURE,
+  };
+};
+
+export const getProductsHomeHandler = (payload, currentPage) => (dispatch) => {
+  dispatch(getProductsHomeRequest());
+  return axios
+    .get(`http://localhost:8000/products/home/products`)
+    .then((res) => dispatch(getProductsHomeSuccess(res.data)))
+    .catch((err) => dispatch(getProductsHomeFailure()));
 };

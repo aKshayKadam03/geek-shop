@@ -14,6 +14,8 @@ const initState = {
   recommendations: [],
   moreFromSameBrand: [],
   searchSuggestions: [],
+  featured: [],
+  popular: [],
 };
 
 export const productReducer = (state = initState, { type, data }) => {
@@ -87,6 +89,18 @@ export const productReducer = (state = initState, { type, data }) => {
     case actionTypes.GET_PRODUCT_REVIEWS_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
+    case actionTypes.POST_PRODUCT_REVIEWS_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.POST_PRODUCT_REVIEWS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case actionTypes.POST_PRODUCT_REVIEWS_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
     case actionTypes.GET_RECOMMENDATIONS_REQUEST:
       return { ...state, isLoading: true };
 
@@ -124,6 +138,20 @@ export const productReducer = (state = initState, { type, data }) => {
       };
 
     case actionTypes.GET_SEARCH_FAILURE:
+      return { ...state, isLoading: false, isError: true };
+
+    case actionTypes.GET_PRODUCTS_HOME_REQUEST:
+      return { ...state, isLoading: true };
+
+    case actionTypes.GET_PRODUCTS_HOME_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        featured: data.featured,
+        popular: data.popular,
+      };
+
+    case actionTypes.GET_PRODUCTS_HOME_FAILURE:
       return { ...state, isLoading: false, isError: true };
 
     default:

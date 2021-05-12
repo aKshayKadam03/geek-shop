@@ -68,6 +68,26 @@ router.get("/:id", async (req, res) => {
   return res.status(200).json({ data: product });
 });
 
+router.get("/home/products", async (req, res) => {
+  let featured = await Product.find({})
+    .sort({ price: 1 })
+    .limit(4)
+    .populate("categoryId")
+    .populate("brandId")
+    .lean()
+    .exec();
+
+  let popular = await Product.find({})
+    .sort({ price: -1 })
+    .limit(4)
+    .populate("categoryId")
+    .populate("brandId")
+    .lean()
+    .exec();
+
+  return res.status(200).json({ featured, popular });
+});
+
 router.get("/category/:id", async (req, res) => {
   let product = await Product.find({ categoryId: req.params.id })
     .populate("categoryId")

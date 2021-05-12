@@ -7,7 +7,7 @@ router.get("/:userId", async (req, res) => {
     .populate("productId")
     .lean()
     .exec();
-  console.log(wishlist);
+
   res.status(200).json({ data: wishlist });
 });
 

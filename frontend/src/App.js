@@ -5,6 +5,8 @@ import "./App.css";
 import Navbar from "./Components/Navigation/Navbar";
 import Cart from "./Components/Drawers/Cart";
 import WishList from "./Components/Drawers/WishList";
+import Footer from "./Components/Footer/Footer";
+import { useSelector } from "react-redux";
 
 const theme = {
   light: {
@@ -53,6 +55,7 @@ function App() {
           setWishlistState={setWishlistState}
           wishlistState={wishlistState}
         ></WishList>
+        <Footer></Footer>
       </AppWrapper>
     </ThemeProvider>
   );

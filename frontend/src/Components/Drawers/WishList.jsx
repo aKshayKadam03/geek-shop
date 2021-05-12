@@ -13,8 +13,7 @@ import {
 import { wishlistDuplicateHandler } from "../../Utils/duplicateHandler";
 
 const WishlistWrapper = styled.div`
-  height: 400px;
-  width: 100%;
+  height: 420px;
   padding: 20px;
 `;
 
@@ -22,7 +21,6 @@ const WishlistHead = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #cecaca;
   letter-spacing: 0.2ch;
 `;
 

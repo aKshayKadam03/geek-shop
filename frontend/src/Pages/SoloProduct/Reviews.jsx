@@ -105,15 +105,22 @@ const ReviewForm = styled.div`
   }
 `;
 
+const EmptyReview = styled.div`
+  display: grid;
+  place-content: center;
+  font-weight: 400;
+  font-size: 26px;
+  height: 20vh;
+  background-color: #f5f5f5;
+`;
+
 const initState = {
-  productId: "",
-  userId: "",
   title: "",
   message: "",
   rating: 0,
 };
 
-function Reviews({ reviews, ratings, productId }) {
+function Reviews({ postReviews, reviews, ratings, productId }) {
   const [userReviewData, setUserReviewData] = React.useState(initState);
 
   const onChangeHandler = (e) => {
@@ -121,13 +128,9 @@ function Reviews({ reviews, ratings, productId }) {
     setUserReviewData({ ...userReviewData, [name]: value });
   };
 
-  React.useEffect(() => {
-    setUserReviewData({ ...userReviewData, productId: productId });
-  }, []);
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(userReviewData);
+    postReviews(userReviewData);
   };
 
   return (
@@ -168,30 +171,57 @@ function Reviews({ reviews, ratings, productId }) {
             </div>
           </form>
         </ReviewForm>
-        {reviews?.map((item) => (
-          <ReviewsCard>
-            <div>
-              <Avatar>{item.userId.first_name[0].toUpperCase()}</Avatar>
-            </div>
-            <div>
+        {reviews.length === 0 ? (
+          <EmptyReview>
+            <em>Be the first person to review this product</em>
+          </EmptyReview>
+        ) : (
+          reviews?.map((item) => (
+            <ReviewsCard>
               <div>
-                <p>{item.userId.first_name + " " + item.userId.last_name}</p>
+                <Avatar>{item.userId.first_name[0].toUpperCase()}</Avatar>
               </div>
               <div>
-                <Rating size="small" value={+item.rating} readOnly></Rating>
+                <div>
+                  <p>{item.userId.first_name + " " + item.userId.last_name}</p>
+                </div>
+                <div>
+                  <Rating size="small" value={+item.rating} readOnly></Rating>
+                </div>
+                <div>
+                  <b>{item.title}</b>
+                </div>
+                <div>
+                  <span>{item.message}</span>
+                </div>
               </div>
-              <div>
-                <b>{item.title}</b>
-              </div>
-              <div>
-                <span>{item.message}</span>
-              </div>
-            </div>
-          </ReviewsCard>
-        ))}
+            </ReviewsCard>
+          ))
+        )}
       </ReviewsBody>
     </ReviewsWrapper>
   );
 }
 
 export default Reviews;
+// {reviews?.map((item) => (
+//   <ReviewsCard>
+//     <div>
+//       <Avatar>{item.userId.first_name[0].toUpperCase()}</Avatar>
+//     </div>
+//     <div>
+//       <div>
+//         <p>{item.userId.first_name + " " + item.userId.last_name}</p>
+//       </div>
+//       <div>
+//         <Rating size="small" value={+item.rating} readOnly></Rating>
+//       </div>
+//       <div>
+//         <b>{item.title}</b>
+//       </div>
+//       <div>
+//         <span>{item.message}</span>
+//       </div>
+//     </div>
+//   </ReviewsCard>
+// ))}

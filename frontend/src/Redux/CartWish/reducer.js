@@ -84,7 +84,6 @@ export const cartWishReducer = (state = initState, { type, data }) => {
       return { ...state, isError: false, isLoading: true };
 
     case actionTypes.GET_WISHLIST_SUCCESS:
-      console.log(data.data, "from wishlist");
       return {
         ...state,
         isLoading: false,
@@ -126,6 +125,23 @@ export const cartWishReducer = (state = initState, { type, data }) => {
       return {
         ...state,
         uniqueWishlist: data,
+      };
+
+    case actionTypes.EMPTY_CART_REQUEST:
+      return { ...state, isError: false, isLoading: true };
+
+    case actionTypes.EMPTY_CART_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+
+    case actionTypes.EMPTY_CART_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
 
     default:

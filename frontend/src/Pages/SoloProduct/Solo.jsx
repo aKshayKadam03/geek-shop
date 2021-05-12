@@ -6,6 +6,7 @@ import {
   getProductReviewHandler,
   getRecommendationsHandler,
   getFromSameBrandHandler,
+  postProductReviewHandler,
 } from "../../Redux/Products/action";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -18,6 +19,7 @@ import {
 } from "../../Components/Global/Typography";
 import Reviews from "./Reviews";
 import Recommendations from "../../Components/Recommendations/Recommendations";
+import { getCartHandler, postCartHandler } from "../../Redux/CartWish/action";
 
 // font-family: 'Lato', sans-serif;
 // font-family: 'Montserrat', sans-serif;
@@ -64,7 +66,13 @@ const SoloProductInfo = styled.div`
   flex-basis: 5;
   display: flex;
   flex-direction: column;
-
+  h1 {
+    text-transform: capitalize;
+  }
+  a {
+    text-transform: capitalize;
+    color: #2f2d2d;
+  }
   > div {
     margin: 30px 0;
   }
@@ -91,7 +99,7 @@ const AddToCart = styled.button`
   font-weight: 500;
   letter-spacing: 0.5ch;
   background-color: ${(props) => props.theme.btnBackground};
-  color: white;
+  color: ${(props) => (props.color ? props.color : "white")};
   text-transform: uppercase;
   padding: 10px;
   border: 2px solid ${(props) => props.theme.btnBackground};
@@ -128,7 +136,7 @@ const RecommendationWrapper = styled.div`
   max-width: 1600px;
   margin: 0px auto 50px;
   h2 {
-    text-transform: uppercase;
+    text-transform: capitalize;
   }
 `;
 
@@ -142,6 +150,12 @@ function Solo() {
   let dispatch = useDispatch();
   let soloProduct = useSelector((state) => state.productReducer.soloProduct);
   let reviews = useSelector((state) => state.productReducer.reviews);
+  let userData = useSelector((state) => state.authReducer.userData);
+  let history = useHistory();
+  let isAuth = useSelector((state) => state.authReducer.isAuth);
+  const productsInCart = useSelector(
+    (state) => state.cartWishReducer.uniqueCart
+  );
   let recommendationItems = useSelector(
     (state) => state.productReducer.recommendations
   );
@@ -164,21 +178,47 @@ function Solo() {
     dispatch(getSoloProductHandler(id));
   }, [id]);
 
+  function addToCartHandler() {
+    if (!isAuth) {
+      return history.push("/auth/login");
+    }
+    let payload = {
+      userId: userData?._id,
+      productId: _id,
+    };
+    dispatch(postCartHandler(payload)).then((res) =>
+      dispatch(getCartHandler(userData._id))
+    );
+  }
+
   React.useEffect(() => {
     getReviews();
     getRecommendations();
   }, [soloProduct]);
 
   function getReviews() {
-    let payload = {
-      userId: "6091344b95595125e0e2c830",
-      productId: "608160be94190059c07f3ff4",
-    };
-    dispatch(getProductReviewHandler(payload));
+    dispatch(getProductReviewHandler(_id));
   }
+
+  function postReviews(reviewData) {
+    let { title, message, rating } = reviewData;
+    let payload = {
+      userId: userData?._id,
+      productId: _id,
+      title,
+      message,
+      rating,
+    };
+    dispatch(postProductReviewHandler(payload)).then((res) => getReviews());
+  }
+
   function getRecommendations() {
     dispatch(getRecommendationsHandler(categoryId?._id));
     dispatch(getFromSameBrandHandler(brandId?._id));
+  }
+
+  function onCheckoutHandler() {
+    history.push("/checkout");
   }
 
   return (
@@ -202,9 +242,15 @@ function Solo() {
           <div>
             <Paragraph>{description}</Paragraph>
           </div>
-          <div>
-            <AddToCart>Add to Cart</AddToCart>
-          </div>
+          {isAuth && productsInCart.includes(_id) ? (
+            <div onClick={onCheckoutHandler}>
+              <AddToCart color="red">Go to Cart</AddToCart>
+            </div>
+          ) : (
+            <div onClick={addToCartHandler}>
+              <AddToCart>Add to Cart</AddToCart>
+            </div>
+          )}
         </SoloProductInfo>
       </SoloSection>
       <PromotionalSpace>
@@ -215,7 +261,12 @@ function Solo() {
           </SubHeadingOne>
         </div>
       </PromotionalSpace>
-      <Reviews productId={_id} reviews={reviews} ratings={ratings}></Reviews>
+      <Reviews
+        postReviews={postReviews}
+        productId={_id}
+        reviews={reviews}
+        ratings={ratings}
+      ></Reviews>
 
       <RecommendationWrapper>
         <SubHeadingOne>Similar Products</SubHeadingOne>
@@ -226,7 +277,7 @@ function Solo() {
         </RecommendationDisplay>
       </RecommendationWrapper>
       <RecommendationWrapper>
-        <SubHeadingOne>More from same brand</SubHeadingOne>
+        <SubHeadingOne>More from {brandId?.name}</SubHeadingOne>
         <RecommendationDisplay>
           {moreFromSameBrand?.map((item) => (
             <Recommendations key={item?._id} {...item} />

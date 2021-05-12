@@ -8,6 +8,8 @@ const CheckoutCartWrapper = styled.div`
   justify-content: center;
   border-radius: 5px;
   height: 500px;
+  flex-wrap: wrap;
+  min-width: 350px;
   > div {
     margin: 10px;
     width: 600px;
@@ -70,11 +72,17 @@ const ProductPrice = styled.p`
   }
 `;
 
-function CheckoutCart({ setActiveStep, cart, onDeleteHandler }) {
-  const [price, setPrice] = React.useState(0);
-  const [discount, setDiscount] = React.useState(0);
-  const [totalPrice, setTotalPrice] = React.useState(0);
-
+function CheckoutCart({
+  totalPrice,
+  setTotalPrice,
+  price,
+  setPrice,
+  discount,
+  setDiscount,
+  setActiveStep,
+  cart,
+  onDeleteHandler,
+}) {
   React.useEffect(() => {
     let subTotal = cartSubTotalCalculator(cart);
     let discount = Math.floor(subTotal * 0.2);
@@ -142,9 +150,7 @@ function CheckoutCart({ setActiveStep, cart, onDeleteHandler }) {
             <ProductPrice weight="bold">{totalPrice}</ProductPrice>
           </div>
           <div>
-            <PlaceOrder onClick={() => setActiveStep(1)}>
-              Place Order
-            </PlaceOrder>
+            <PlaceOrder onClick={() => setActiveStep(1)}>Next</PlaceOrder>
           </div>
         </CartFooter>
       </CartDetails>

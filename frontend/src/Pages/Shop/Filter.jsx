@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Rating from "@material-ui/lab/Rating";
 import {
   MainHeading,
   Paragraph,
   SubHeadingOne,
   SubHeadingTwo,
 } from "../../Components/Global/Typography";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 
 const FilterWrapper = styled.div`
@@ -99,7 +97,7 @@ function Filter({
 }) {
   let [forSearchBrands, setForSearchBrands] = React.useState([]);
   let [forSearchCategories, setForSearchCategories] = React.useState([]);
-
+  let [tempValue, setTempValue] = React.useState(priceLimit);
   let onCategorySearchHandler = (e) => {
     if (!e.target.value.trim()) {
       return setForSearchCategories(categories);
@@ -141,7 +139,8 @@ function Filter({
           <Slider
             min={minPrice}
             max={maxPrice}
-            value={priceLimit}
+            value={tempValue}
+            onChange={(e, newValue) => setTempValue(newValue)}
             onChangeCommitted={(e, newValue) => setPriceLimit(newValue)}
             valueLabelDisplay="auto"
           />
