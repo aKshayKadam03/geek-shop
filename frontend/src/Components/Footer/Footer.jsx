@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const FooterWrapper = styled.div`
   min-height: 6vh;
-  background-color: #080808;
+  background-color: #111011;
   width: 100%;
   color: #ffffff;
   display: flex;

@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const AuthWrapper = styled.div`
   position: relative;
@@ -105,6 +106,7 @@ function Auth() {
   const isError = useSelector((state) => state.authReducer.isError);
   const isAuth = useSelector((state) => state.authReducer.isAuth);
   const statusCode = useSelector((state) => state.authReducer.status);
+  const [open, setOpen] = React.useState(false);
 
   function onSwitchHandler(flag) {
     if (flag === 1) {
@@ -115,6 +117,12 @@ function Auth() {
       history.push("/auth/login");
     }
   }
+
+  React.useEffect(() => {
+    if (isError) {
+      setOpen(true);
+    }
+  }, [isError]);
 
   return (
     <AuthWrapper>

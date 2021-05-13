@@ -2,6 +2,7 @@ import React from "react";
 import { AuthButton, AuthForm } from "./Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { getSignupHandler } from "../../Redux/Auth/action";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const initState = {
   first_name: "",
@@ -15,6 +16,7 @@ function Signup() {
   const isLoading = useSelector((state) => state.authReducer.isLoading);
   const isError = useSelector((state) => state.authReducer.isError);
   const isAuth = useSelector((state) => state.authReducer.isAuth);
+  const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
 
   function onChangeHandler(e) {
@@ -27,17 +29,26 @@ function Signup() {
   function onSubmitHandler(e) {
     e.preventDefault();
     dispatch(getSignupHandler(formData));
-    if (isError) {
-      return alert("Something went wrong");
-    }
     if (isAuth) {
-      return alert("Success");
+      return setOpen(false);
+    } else if (isError) {
+      return setOpen(true);
     }
   }
 
   const { first_name, last_name, email, password } = formData;
   return (
     <AuthForm onSubmit={onSubmitHandler}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+        message="Please Check your email and password"
+      />
       <div>
         <input
           onChange={onChangeHandler}
