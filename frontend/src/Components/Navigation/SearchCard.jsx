@@ -11,6 +11,7 @@ const SearchCardWrapper = styled.div`
   }
   > div:nth-child(1) {
     width: 90%;
+    text-transform: capitalize;
   }
   > div:nth-child(2) {
     width: 10%;

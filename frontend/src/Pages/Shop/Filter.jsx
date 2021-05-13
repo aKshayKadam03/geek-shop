@@ -30,6 +30,7 @@ const SectionHead = styled.div`
   align-items: center;
   font-size: 25px;
   margin: 10px 0;
+  justify-content: space-between;
 `;
 
 const SectionItemHolder = styled.div`
@@ -85,6 +86,14 @@ const SliderInfo = styled.div`
   }
 `;
 
+const ClearALL = styled.button`
+  background-color: #ebe6e6;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 5px;
+  visibility: ${(props) => props.visibility};
+`;
+
 function Filter({
   brands,
   categories,
@@ -94,10 +103,15 @@ function Filter({
   onCategoryChangeHandler,
   onBrandChangeHandler,
   priceLimit,
+  categoriesArray,
+  brandsArray,
+  onCategoryClearHandler,
+  onBrandClearHandler,
 }) {
   let [forSearchBrands, setForSearchBrands] = React.useState([]);
   let [forSearchCategories, setForSearchCategories] = React.useState([]);
   let [tempValue, setTempValue] = React.useState(priceLimit);
+
   let onCategorySearchHandler = (e) => {
     if (!e.target.value.trim()) {
       return setForSearchCategories(categories);
@@ -157,6 +171,14 @@ function Filter({
       <Section>
         <SectionHead>
           <SubHeadingTwo>Category</SubHeadingTwo>
+          <div>
+            <ClearALL
+              onClick={onCategoryClearHandler}
+              visibility={categoriesArray.length !== 0 ? "visible" : "hidden"}
+            >
+              Clear all
+            </ClearALL>
+          </div>
         </SectionHead>
         <SectionSearch>
           <input
@@ -185,7 +207,16 @@ function Filter({
       <Section>
         <SectionHead>
           <SubHeadingTwo>Brands</SubHeadingTwo>
+          <div>
+            <ClearALL
+              onClick={onBrandClearHandler}
+              visibility={brandsArray.length !== 0 ? "visible" : "hidden"}
+            >
+              Clear all
+            </ClearALL>
+          </div>
         </SectionHead>
+
         <SectionSearch>
           <input onChange={onBrandSearchHandler} placeholder="Search brands" />
         </SectionSearch>

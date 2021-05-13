@@ -145,6 +145,12 @@ const RecommendationDisplay = styled.div`
   align-items: center;
 `;
 
+const initState = {
+  title: "",
+  message: "",
+  rating: 0,
+};
+
 function Solo() {
   let { id } = useParams();
   let dispatch = useDispatch();
@@ -162,6 +168,8 @@ function Solo() {
   let moreFromSameBrand = useSelector(
     (state) => state.productReducer.moreFromSameBrand
   );
+
+  const [userReviewData, setUserReviewData] = React.useState(initState);
 
   let {
     _id,
@@ -209,7 +217,10 @@ function Solo() {
       message,
       rating,
     };
-    dispatch(postProductReviewHandler(payload)).then((res) => getReviews());
+    dispatch(postProductReviewHandler(payload)).then(
+      (res) => getReviews(),
+      setUserReviewData(initState)
+    );
   }
 
   function getRecommendations() {
@@ -266,6 +277,9 @@ function Solo() {
         productId={_id}
         reviews={reviews}
         ratings={ratings}
+        isAuth={isAuth}
+        userReviewData={userReviewData}
+        setUserReviewData={setUserReviewData}
       ></Reviews>
 
       <RecommendationWrapper>

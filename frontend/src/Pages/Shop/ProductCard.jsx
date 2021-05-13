@@ -55,6 +55,7 @@ const ProductInfo = styled.div`
 const ProductTitle = styled.p`
   font-size: 20px;
   margin: 20px 0px;
+  text-transform: capitalize;
 `;
 
 const ProductPrice = styled.p`

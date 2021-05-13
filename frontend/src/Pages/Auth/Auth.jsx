@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const AuthWrapper = styled.div`
   position: relative;
-  min-height: 80vh;
+  min-height: 100vh;
   transition: all 500ms ease;
 `;
 
@@ -73,10 +73,11 @@ export const AuthForm = styled.form`
 `;
 
 export const AuthButton = styled.button`
+  transition: all 500ms ease;
   background-color: ${(props) => props.theme.btnBackground};
   color: white;
   border: none;
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   font-size: 16px;
   text-transform: uppercase;

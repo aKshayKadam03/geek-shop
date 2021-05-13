@@ -8,6 +8,7 @@ const { getAll } = require("../utils/collector");
 router.post("/", async (req, res) => {
   let [inComingMin, inComingMax] = req.body.priceLimit;
   let page = +req.query.page || 1;
+  let sortSelection = +req.query.sort;
   let size = 9;
   let offset = (page - 1) * size;
   let brandsArray = req.body.brandsArray;
@@ -30,6 +31,7 @@ router.post("/", async (req, res) => {
     categoryId: { $in: categoriesArray },
     brandId: { $in: brandsArray },
   })
+    .sort(sortSelection !== 0 ? { price: sortSelection } : {})
     .populate("categoryId")
     .populate("brandId")
     .skip(offset)

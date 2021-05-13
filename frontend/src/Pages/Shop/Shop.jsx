@@ -56,9 +56,25 @@ const SortingField = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  margin: 10px 15px;
+
   p {
     font-size: 22px;
+  }
+  select {
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin: 0 -15%;
+    outline: none;
+    border: 1px solid #dad5d5;
+  }
+  option {
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 200px;
+    border: 1px solid #dad5d5;
   }
 `;
 
@@ -99,6 +115,7 @@ function Shop() {
   const [categoriesArray, setCategoriesArray] = React.useState([]);
   const [allProducts, setAllProducts] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [sortSelection, setSortSelection] = React.useState(0);
 
   const history = useHistory();
 
@@ -132,6 +149,22 @@ function Shop() {
     setBrandsArray(arr);
   };
 
+  const onBrandClearHandler = (e) => {
+    setBrandsArray([]);
+    let brandClass = document.getElementsByClassName("brands");
+    for (let i = 0; i < brandClass.length; i++) {
+      brandClass[i].checked = false;
+    }
+  };
+
+  const onCategoryClearHandler = (e) => {
+    setCategoriesArray([]);
+    let categoryClass = document.getElementsByClassName("categories");
+    for (let i = 0; i < categoryClass.length; i++) {
+      categoryClass[i].checked = false;
+    }
+  };
+
   // function clearCheckbox(className) {
   //   let element = document.getElementsByClassName(className);
   //   for (let i = 0; i < element.length; i++) {
@@ -139,22 +172,23 @@ function Shop() {
   //   }
   // }
 
+  //resetting page number whenever filter changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [brandsArray, categoriesArray]);
+
   function getProducts() {
     let payload = {
       priceLimit,
       categoriesArray,
       brandsArray,
     };
-    dispatch(getProductsHandler(payload, currentPage));
+    dispatch(getProductsHandler(payload, currentPage, sortSelection));
   }
 
   React.useEffect(() => {
-    setCurrentPage(1);
-  }, [brandsArray, categoriesArray]);
-
-  React.useEffect(() => {
     getProducts();
-  }, [priceLimit, categoriesArray, brandsArray, currentPage]);
+  }, [priceLimit, categoriesArray, brandsArray, currentPage, sortSelection]);
 
   React.useEffect(() => {
     getProducts();
@@ -212,6 +246,12 @@ function Shop() {
           priceLimit={priceLimit}
           onCategoryChangeHandler={onCategoryChangeHandler}
           onBrandChangeHandler={onBrandChangeHandler}
+          categoriesArray={categoriesArray}
+          brandsArray={brandsArray}
+          setCategoriesArray={setCategoriesArray}
+          setBrandsArray={setBrandsArray}
+          onBrandClearHandler={onBrandClearHandler}
+          onCategoryClearHandler={onCategoryClearHandler}
         ></Filter>
         <ShopContainer>
           <SortingField>
@@ -220,17 +260,18 @@ function Shop() {
                 {productsTotal} {productsTotal === 1 ? "Product" : "Products"}
               </Paragraph>
             </div>
-            {/* <div>
-              <label htmlFor="price">Sort by price</label>
+            <div>
               <select
-                onChange={(e) => setSortHigh(e.target.value)}
+                value={sortSelection}
+                onChange={(e) => setSortSelection(e.target.value)}
                 name="price"
                 id="price"
               >
-                <option value={true}>High to low</option>
-                <option value={false}>Low to high</option>
+                <option value={0}>Relevance</option>
+                <option value={-1}>High to low</option>
+                <option value={1}>Low to high</option>
               </select>
-            </div> */}
+            </div>
           </SortingField>
           <ShopItems>
             {allProducts?.map((item) => (

@@ -146,6 +146,7 @@ function Navbar({ setCartState, setWishlistState }) {
   const userData = useSelector((state) => state.authReducer.userData);
   const cartArray = useSelector((state) => state.cartWishReducer.cart);
   const wishlistArray = useSelector((state) => state.cartWishReducer.wishlist);
+  const timer = React.useRef();
 
   let searchSuggestions = useSelector(
     (state) => state.productReducer.searchSuggestions
@@ -181,7 +182,11 @@ function Navbar({ setCartState, setWishlistState }) {
   }
 
   React.useEffect(() => {
-    onQuerySearchHandler();
+    //debounce
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      onQuerySearchHandler();
+    }, 500);
   }, [search]);
 
   return (

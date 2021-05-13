@@ -65,6 +65,7 @@ const ReviewsCard = styled.div`
 `;
 
 const ReviewForm = styled.div`
+  position: relative;
   form {
     display: flex;
     flex-direction: column;
@@ -103,6 +104,20 @@ const ReviewForm = styled.div`
     border-radius: 5px;
     font-size: 16px;
   }
+  ::before {
+    content: "Please login to submit a review";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    z-index: 10;
+    display: ${(props) => (props.isAuth ? "none" : "grid")};
+    place-content: center;
+    font-size: 25px;
+    font-style: italic;
+  }
 `;
 
 const EmptyReview = styled.div`
@@ -114,15 +129,15 @@ const EmptyReview = styled.div`
   background-color: #f5f5f5;
 `;
 
-const initState = {
-  title: "",
-  message: "",
-  rating: 0,
-};
-
-function Reviews({ postReviews, reviews, ratings, productId }) {
-  const [userReviewData, setUserReviewData] = React.useState(initState);
-
+function Reviews({
+  isAuth,
+  postReviews,
+  reviews,
+  ratings,
+  productId,
+  userReviewData,
+  setUserReviewData,
+}) {
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setUserReviewData({ ...userReviewData, [name]: value });
@@ -133,11 +148,13 @@ function Reviews({ postReviews, reviews, ratings, productId }) {
     postReviews(userReviewData);
   };
 
+  let { title, rating, message } = userReviewData;
+
   return (
     <ReviewsWrapper>
       <ReviewsHead>
         <div>
-          <SubHeadingOne>{ratings === undefined ? 0 : ratings}</SubHeadingOne>
+          <SubHeadingOne>{ratings || 0}</SubHeadingOne>
         </div>
         <div>
           <Rating size="large" value={+ratings} readOnly></Rating>
@@ -148,7 +165,7 @@ function Reviews({ postReviews, reviews, ratings, productId }) {
       </ReviewsHead>
 
       <ReviewsBody>
-        <ReviewForm>
+        <ReviewForm isAuth={isAuth}>
           <form onSubmit={onSubmitHandler}>
             <div>
               <label>Rate</label>
@@ -156,15 +173,26 @@ function Reviews({ postReviews, reviews, ratings, productId }) {
                 onChange={onChangeHandler}
                 name="rating"
                 size="large"
+                value={rating}
               ></Rating>
             </div>
             <div>
               <label>Title</label>
-              <input name="title" required onChange={onChangeHandler} />
+              <input
+                value={title}
+                name="title"
+                required
+                onChange={onChangeHandler}
+              />
             </div>
             <div>
               <label>Review</label>
-              <textarea name="message" required onChange={onChangeHandler} />
+              <textarea
+                value={message}
+                name="message"
+                required
+                onChange={onChangeHandler}
+              />
             </div>
             <div>
               <button type="submit">Submit</button>

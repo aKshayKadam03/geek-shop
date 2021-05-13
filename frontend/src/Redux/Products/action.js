@@ -20,13 +20,17 @@ const getProductsFailure = () => {
   };
 };
 
-export const getProductsHandler = (payload, currentPage) => (dispatch) => {
-  dispatch(getProductsRequest());
-  return axios
-    .post(`http://localhost:8000/products?page=${currentPage}`, payload)
-    .then((res) => dispatch(getProductsSuccess(res.data)))
-    .catch((err) => dispatch(getProductsFailure()));
-};
+export const getProductsHandler =
+  (payload, currentPage, sortSelection) => (dispatch) => {
+    dispatch(getProductsRequest());
+    return axios
+      .post(
+        `http://localhost:8000/products?page=${currentPage}&sort=${sortSelection}`,
+        payload
+      )
+      .then((res) => dispatch(getProductsSuccess(res.data)))
+      .catch((err) => dispatch(getProductsFailure()));
+  };
 
 const getCategoriesRequest = () => {
   return {

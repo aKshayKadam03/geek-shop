@@ -21,12 +21,6 @@ const theme = {
   },
 };
 
-const AppWrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.backgroundColor};
-  background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.fontColor};
-`;
-
 function App() {
   const [activeTheme, setActiveTheme] = React.useState("light");
   const [cartState, setCartState] = React.useState(false);
@@ -42,21 +36,19 @@ function App() {
 
   return (
     <ThemeProvider theme={theme[activeTheme]}>
-      <AppWrapper>
-        <Navbar
-          setCartState={setCartState}
-          cartState={cartState}
-          setWishlistState={setWishlistState}
-          wishlistState={wishlistState}
-        ></Navbar>
-        <Router></Router>
-        <Cart setCartState={setCartState} cartState={cartState}></Cart>
-        <WishList
-          setWishlistState={setWishlistState}
-          wishlistState={wishlistState}
-        ></WishList>
-        <Footer></Footer>
-      </AppWrapper>
+      <Navbar
+        setCartState={setCartState}
+        cartState={cartState}
+        setWishlistState={setWishlistState}
+        wishlistState={wishlistState}
+      ></Navbar>
+      <Router></Router>
+      <Cart setCartState={setCartState} cartState={cartState}></Cart>
+      <WishList
+        setWishlistState={setWishlistState}
+        wishlistState={wishlistState}
+      ></WishList>
+      <Footer></Footer>
     </ThemeProvider>
   );
 }

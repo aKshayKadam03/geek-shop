@@ -46,7 +46,7 @@ const CheckoutWrapper = styled.div`
 
 const CheckoutMain = styled.div`
   width: 80vw;
-  min-height: 70vh;
+  min-height: 80vh;
   margin: 5vh auto;
   border-radius: 10px;
   /* box-shadow: 8px 8px 16px #c9c5c5; */
