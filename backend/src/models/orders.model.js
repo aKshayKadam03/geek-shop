@@ -19,6 +19,7 @@ const orderSchema = new mongoose.Schema(
     pin: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
+    total: { type: Number, required: true },
   },
   { timestamps: true }
 );

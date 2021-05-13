@@ -7,6 +7,14 @@ import { AntiPrivateRoute, PrivateRoute } from "./PrivateRoutes";
 import Checkout from "../Pages/Checkout/Checkout";
 import Home from "../Pages/Home/Home";
 import Profile from "../Pages/Profile/Profile";
+import image from "../Images/404.svg";
+import styled from "styled-components";
+
+const Error = styled.div`
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+`;
 
 function Router() {
   return (
@@ -29,6 +37,11 @@ function Router() {
       <AntiPrivateRoute path="/auth/:auth">
         <Auth></Auth>
       </AntiPrivateRoute>
+      <Route>
+        <Error>
+          <img src={image} alt="404" />
+        </Error>
+      </Route>
     </Switch>
   );
 }
