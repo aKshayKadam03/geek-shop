@@ -24,7 +24,7 @@ const ProfileSection = styled.div`
   display: flex;
   padding: 20px;
   justify-content: center;
-  color: white;
+  color: #ffffff;
 `;
 
 const ProfilePicture = styled.div`
