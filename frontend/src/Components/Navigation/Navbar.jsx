@@ -102,6 +102,7 @@ const NavItem = styled.button`
   background-color: white;
   transition: all 500ms ease;
   border: 1px solid #eeecec;
+  text-transform: capitalize;
   :hover {
     color: ${(props) => props.theme.btnBackground};
   }
@@ -134,6 +135,57 @@ const SearchResults = styled.div`
   border-top: none;
   border-radius: 5px;
   z-index: 400;
+  padding: 0px 15px;
+`;
+
+const DropDownWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid #cec8c8;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  > div:nth-child(1) {
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+    > div {
+      margin: 2px;
+    }
+  }
+  :hover {
+    div + div {
+      display: inline;
+    }
+  }
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 99999999999;
+  background-color: white;
+  border: 1px solid #cec8c8;
+  width: 100%;
+  border-radius: 5px;
+  display: none;
+  div {
+    border-radius: 5px;
+    padding: 10px;
+
+    :hover {
+      background-color: black;
+      color: white;
+    }
+  }
 `;
 
 function Navbar({ setCartState, setWishlistState }) {
@@ -193,7 +245,7 @@ function Navbar({ setCartState, setWishlistState }) {
     <NavbarWrapper>
       <Navigation>
         <Logo>
-          <Link to="/">Creative Systems</Link>
+          <Link to="/">Geek Shop</Link>
         </Logo>
         <SearchHolder status={search}>
           <input
@@ -249,11 +301,26 @@ function Navbar({ setCartState, setWishlistState }) {
           </div>
           <div>
             {isAuth ? (
-              <Link to="/">
-                <NavButton onClick={logoutHandler}>
-                  <span> Logout </span>
-                </NavButton>
-              </Link>
+              <DropDownWrapper>
+                <div>
+                  <div>{userData?.first_name}</div>
+                  <div>
+                    <i className="fas fa-chevron-down"></i>
+                  </div>
+                </div>
+                <DropDown>
+                  <Link to="/profile">
+                    <div>
+                      <span> Profile </span>
+                    </div>
+                  </Link>
+                  <Link to="/">
+                    <div onClick={logoutHandler}>
+                      <span> Logout </span>
+                    </div>
+                  </Link>
+                </DropDown>
+              </DropDownWrapper>
             ) : (
               <Link to="/auth/login">
                 <NavButton>

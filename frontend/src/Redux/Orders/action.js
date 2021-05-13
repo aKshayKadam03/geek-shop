@@ -54,7 +54,7 @@ const getOrdersFailure = () => {
 export const getOrdersHandler = (id) => (dispatch) => {
   dispatch(getOrdersRequest());
   return axios
-    .get(`http://localhost:8000/cart/${id}`)
+    .get(`http://localhost:8000/orders/${id}`)
     .then((res) => dispatch(getOrdersSuccess(res.data)))
     .catch((err) => dispatch(getOrdersFailure()));
 };

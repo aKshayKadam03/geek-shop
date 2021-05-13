@@ -20,7 +20,7 @@ const Catalog = styled.div`
     left: ${(props) => (props.position ? "75%" : "25%")};
     transform: translate(-50%, -50%);
     background-color: white;
-    filter: opacity(90%);
+    filter: opacity(80%);
     text-align: center;
     padding: 20px 30px;
     font-size: 30px;

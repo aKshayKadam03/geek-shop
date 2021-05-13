@@ -3,12 +3,13 @@ import styled from "styled-components";
 
 const FooterWrapper = styled.div`
   min-height: 6vh;
-  background-color: #161414;
+  background-color: #080808;
   width: 100%;
-  color: white;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
   > div {
     margin: 0px 15px;
   }
@@ -45,11 +46,11 @@ function Footer() {
         <p>Developed by</p>
         <a href="http://www.akshaykadam.tech/">Akshay Kadam</a>
       </div>
-      <div>
+      {/* <div>
         <a href="#">
           <Button>Source Code</Button>
         </a>
-      </div>
+      </div> */}
     </FooterWrapper>
   );
 }

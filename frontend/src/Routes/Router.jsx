@@ -6,6 +6,7 @@ import Auth from "../Pages/Auth/Auth";
 import { AntiPrivateRoute, PrivateRoute } from "./PrivateRoutes";
 import Checkout from "../Pages/Checkout/Checkout";
 import Home from "../Pages/Home/Home";
+import Profile from "../Pages/Profile/Profile";
 
 function Router() {
   return (
@@ -21,6 +22,9 @@ function Router() {
       </Route>
       <PrivateRoute path="/checkout">
         <Checkout></Checkout>
+      </PrivateRoute>
+      <PrivateRoute path="/profile">
+        <Profile></Profile>
       </PrivateRoute>
       <AntiPrivateRoute path="/auth/:auth">
         <Auth></Auth>
