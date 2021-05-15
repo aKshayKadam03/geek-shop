@@ -7,6 +7,7 @@ import Cart from "./Components/Drawers/Cart";
 import WishList from "./Components/Drawers/WishList";
 import Footer from "./Components/Footer/Footer";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const theme = {
   light: {
@@ -25,14 +26,19 @@ function App() {
   const [activeTheme, setActiveTheme] = React.useState("light");
   const [cartState, setCartState] = React.useState(false);
   const [wishlistState, setWishlistState] = React.useState(false);
+  const history = useHistory();
 
-  const themeToggle = () => {
-    if (activeTheme === "light") {
-      setActiveTheme("dark");
-    } else {
-      setActiveTheme("light");
-    }
-  };
+  history.listen((location, action) => {
+    window.scrollTo(0, 0);
+  });
+
+  // const themeToggle = () => {
+  //   if (activeTheme === "light") {
+  //     setActiveTheme("dark");
+  //   } else {
+  //     setActiveTheme("light");
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={theme[activeTheme]}>

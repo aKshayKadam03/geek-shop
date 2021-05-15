@@ -110,7 +110,7 @@ function WishList({ wishlistState, setWishlistState }) {
       <WishlistWrapper>
         <WishlistHead>
           <div>
-            <h1>Cart</h1>
+            <h1>Wishlist</h1>
           </div>
           <div>
             <ClearIcon
