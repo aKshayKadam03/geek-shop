@@ -2,7 +2,8 @@
 
 Geek Shop is a electronic eCommerce shop where a user can signup and order from the available products.
 
-
+#### Note : It takes a while to start the backend, please refresh after few seconds after first launch while watching the demo.
+[Live Demo](https://geekshopak.netlify.app/)
 
 ## Usage 
 * Clone the repository
