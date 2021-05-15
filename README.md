@@ -53,9 +53,8 @@ I don't own any of the content such as images or icons on this website, this was
 ## Screenshots
  
 ![home](https://user-images.githubusercontent.com/39058941/118169653-d047aa00-b446-11eb-89f9-e7d066733436.png)
-![login](https://user-images.githubusercontent.com/39058941/118169672-d76eb800-b446-11eb-8fb9-cb26b10fe07e.png)
-![profile](https://user-images.githubusercontent.com/39058941/118169675-d8074e80-b446-11eb-865f-df3242709ff2.png)
 ![shop](https://user-images.githubusercontent.com/39058941/118169677-d89fe500-b446-11eb-918f-0e1026579291.png)
+![profile](https://user-images.githubusercontent.com/39058941/118169675-d8074e80-b446-11eb-865f-df3242709ff2.png)
 ![solo](https://user-images.githubusercontent.com/39058941/118169678-d9387b80-b446-11eb-93bf-edc8f50dca0f.png)
 ![cart](https://user-images.githubusercontent.com/39058941/118169682-d9d11200-b446-11eb-8d9a-b13f5aab61dc.png)
 ![checkout](https://user-images.githubusercontent.com/39058941/118169685-da69a880-b446-11eb-8f38-f654eb3653d3.png)
