@@ -17,12 +17,15 @@ Geek Shop is a electronic eCommerce shop where a user can signup and order from 
 * Orders history can be viewer in profile page
 
 ## Upcoming Features 
-* Complex and rich Filters
-* Admin Dashboard
+* Responsiveness
+* Complex and rich filters
+* Admin fashboard
 * Editable profile details
 
 ## Credits
-* Images -  Pixabay || Flipkart || MSI || Nvidia || Hp
+I don't own any of the content such as images or icons on this website, this was purely developed with an intent of  learning and exploring, and should not be used for commercial purposes.
+
+* Images -  Pixabay || Flipkart || MSI || Nvidia || Hp || google
 * Content - Flipkart
 * Icons -  FontAwesome || MaterialUi Icons
 * References - [MDN](https://developer.mozilla.org/en-US/) | [w3schools](https://www.w3schools.com/)
