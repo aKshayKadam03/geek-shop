@@ -20,7 +20,7 @@ Geek Shop is an electronic eCommerce shop where a user can signup and order from
 ## Upcoming Features 
 * Responsiveness
 * Complex and rich filters
-* Admin fashboard
+* Admin dashboard
 * Editable profile details
 
 ## Credits
