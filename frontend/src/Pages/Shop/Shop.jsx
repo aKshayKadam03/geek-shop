@@ -237,80 +237,73 @@ function Shop() {
 
   return (
     <>
-      {isLoading ? (
-        <>
-          <Loader></Loader>
-        </>
-      ) : (
-        <PageWrapper>
-          <Hero></Hero>
-          <Container>
-            <Filter
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-              brands={brands}
-              categories={categories}
-              setPriceLimit={setPriceLimit}
-              priceLimit={priceLimit}
-              onCategoryChangeHandler={onCategoryChangeHandler}
-              onBrandChangeHandler={onBrandChangeHandler}
-              categoriesArray={categoriesArray}
-              brandsArray={brandsArray}
-              setCategoriesArray={setCategoriesArray}
-              setBrandsArray={setBrandsArray}
-              onBrandClearHandler={onBrandClearHandler}
-              onCategoryClearHandler={onCategoryClearHandler}
-            ></Filter>
-            <ShopContainer>
-              <SortingField>
-                <div>
-                  <Paragraph>
-                    {productsTotal}{" "}
-                    {productsTotal === 1 ? "Product" : "Products"}
-                  </Paragraph>
-                </div>
-                <div>
-                  <select
-                    value={sortSelection}
-                    onChange={(e) => setSortSelection(e.target.value)}
-                    name="price"
-                    id="price"
-                  >
-                    <option value={0}>Relevance</option>
-                    <option value={-1}>High to low</option>
-                    <option value={1}>Low to high</option>
-                  </select>
-                </div>
-              </SortingField>
-              <ShopItems>
-                {allProducts?.map((item) => (
-                  <ProductCard
-                    onCheckoutHandler={onCheckoutHandler}
-                    removeFromWishlistHandler={removeFromWishlistHandler}
-                    addToCartHandler={addToCartHandler}
-                    productsInCart={productsInCart}
-                    addToWishlistHandler={addToWishlistHandler}
-                    productsInWishlist={productsInWishlist}
-                    key={item._id}
-                    {...item}
-                  ></ProductCard>
-                ))}
-              </ShopItems>
-              <PaginationWapper>
-                <div className={classes.root}>
-                  <Pagination
-                    count={Math.ceil(productsTotal / 9)}
-                    variant="outlined"
-                    shape="rounded"
-                    page={currentPage}
-                    onChange={(e, page) => setCurrentPage(page)}
-                  />
-                </div>
-              </PaginationWapper>
-            </ShopContainer>
-          </Container>
-        </PageWrapper>
-      )}
+      <PageWrapper>
+        <Hero></Hero>
+        <Container>
+          <Filter
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            brands={brands}
+            categories={categories}
+            setPriceLimit={setPriceLimit}
+            priceLimit={priceLimit}
+            onCategoryChangeHandler={onCategoryChangeHandler}
+            onBrandChangeHandler={onBrandChangeHandler}
+            categoriesArray={categoriesArray}
+            brandsArray={brandsArray}
+            setCategoriesArray={setCategoriesArray}
+            setBrandsArray={setBrandsArray}
+            onBrandClearHandler={onBrandClearHandler}
+            onCategoryClearHandler={onCategoryClearHandler}
+          ></Filter>
+          <ShopContainer>
+            <SortingField>
+              <div>
+                <Paragraph>
+                  {productsTotal} {productsTotal === 1 ? "Product" : "Products"}
+                </Paragraph>
+              </div>
+              <div>
+                <select
+                  value={sortSelection}
+                  onChange={(e) => setSortSelection(e.target.value)}
+                  name="price"
+                  id="price"
+                >
+                  <option value={0}>Relevance</option>
+                  <option value={-1}>High to low</option>
+                  <option value={1}>Low to high</option>
+                </select>
+              </div>
+            </SortingField>
+            <ShopItems>
+              {allProducts?.map((item) => (
+                <ProductCard
+                  onCheckoutHandler={onCheckoutHandler}
+                  removeFromWishlistHandler={removeFromWishlistHandler}
+                  addToCartHandler={addToCartHandler}
+                  productsInCart={productsInCart}
+                  addToWishlistHandler={addToWishlistHandler}
+                  productsInWishlist={productsInWishlist}
+                  key={item._id}
+                  {...item}
+                ></ProductCard>
+              ))}
+            </ShopItems>
+            <PaginationWapper>
+              <div className={classes.root}>
+                <Pagination
+                  count={Math.ceil(productsTotal / 9)}
+                  variant="outlined"
+                  shape="rounded"
+                  page={currentPage}
+                  onChange={(e, page) => setCurrentPage(page)}
+                />
+              </div>
+            </PaginationWapper>
+          </ShopContainer>
+        </Container>
+      </PageWrapper>
     </>
   );
 }
