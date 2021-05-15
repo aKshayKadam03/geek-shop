@@ -39,6 +39,7 @@ I don't own any of the content such as images or icons on this website, this was
 * MongoDB
 
 ## Libraries
+* Styled Components
 * React
 * React-Redux
 * React-Router-DOM
