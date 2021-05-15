@@ -25,7 +25,7 @@ const getLoginFailure = (status) => {
 export const getLoginHandler = (payload) => (dispatch) => {
   dispatch(getLoginRequest());
   return axios
-    .post(`http://localhost:8000/auth/login`, payload)
+    .post(`https://geekbackend.herokuapp.com/auth/login`, payload)
     .then((res) => dispatch(getLoginSuccess(res.data, res.status)))
     .catch((err) => dispatch(getLoginFailure(err.status)));
 };
@@ -56,7 +56,7 @@ const getSignupFailure = (status) => {
 export const getSignupHandler = (payload) => (dispatch) => {
   dispatch(getSignupRequest());
   return axios
-    .post(`http://localhost:8000/auth/signup`, payload)
+    .post(`https://geekbackend.herokuapp.com/auth/signup`, payload)
     .then((res) => dispatch(getSignupSuccess(res.data, res.status)))
     .catch((err) => dispatch(getSignupFailure(err.status)));
 };

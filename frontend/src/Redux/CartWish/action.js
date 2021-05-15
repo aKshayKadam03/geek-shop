@@ -25,7 +25,7 @@ const postCartFailure = () => {
 export const postCartHandler = (payload) => (dispatch) => {
   dispatch(postCartRequest());
   return axios
-    .post(`http://localhost:8000/cart`, payload)
+    .post(`https://geekbackend.herokuapp.com/cart`, payload)
     .then((res) => dispatch(postCartSuccess(res.data)))
     .catch((err) => dispatch(postCartFailure()));
 };
@@ -54,7 +54,7 @@ const getCartFailure = () => {
 export const getCartHandler = (id) => (dispatch) => {
   dispatch(getCartRequest());
   return axios
-    .get(`http://localhost:8000/cart/${id}`)
+    .get(`https://geekbackend.herokuapp.com/cart/${id}`)
     .then((res) => dispatch(getCartSuccess(res.data)))
     .catch((err) => dispatch(getCartFailure()));
 };
@@ -83,7 +83,7 @@ const deleteCartFailure = () => {
 export const deleteCartHandler = (id) => (dispatch) => {
   dispatch(deleteCartRequest());
   return axios
-    .delete(`http://localhost:8000/cart/${id}`)
+    .delete(`https://geekbackend.herokuapp.com/cart/${id}`)
     .then((res) => dispatch(deleteCartSuccess()))
     .catch((err) => dispatch(deleteCartFailure()));
 };
@@ -121,7 +121,7 @@ const postWishlistFailure = () => {
 export const postWishlistHandler = (payload) => (dispatch) => {
   dispatch(postWishlistRequest());
   return axios
-    .post(`http://localhost:8000/wishlist`, payload)
+    .post(`https://geekbackend.herokuapp.com/wishlist`, payload)
     .then((res) => dispatch(postWishlistSuccess(res.data)))
     .catch((err) => dispatch(postWishlistFailure()));
 };
@@ -150,7 +150,7 @@ const getWishlistFailure = () => {
 export const getWishlistHandler = (id) => (dispatch) => {
   dispatch(getWishlistRequest());
   return axios
-    .get(`http://localhost:8000/wishlist/${id}`)
+    .get(`https://geekbackend.herokuapp.com/wishlist/${id}`)
     .then((res) => dispatch(getWishlistSuccess(res.data)))
     .catch((err) => dispatch(getWishlistFailure()));
 };
@@ -179,7 +179,7 @@ const deleteWishlistFailure = () => {
 export const deleteWishlistHandler = (id) => (dispatch) => {
   dispatch(deleteWishlistRequest());
   return axios
-    .delete(`http://localhost:8000/wishlist/${id}`)
+    .delete(`https://geekbackend.herokuapp.com/wishlist/${id}`)
     .then((res) => dispatch(deleteWishlistSuccess()))
     .catch((err) => dispatch(deleteWishlistFailure()));
 };
@@ -217,7 +217,7 @@ const emptyCartFailure = () => {
 export const emptyCartHandler = (id) => (dispatch) => {
   dispatch(emptyCartRequest());
   return axios
-    .delete(`http://localhost:8000/cart/bulk/${id}`)
+    .delete(`https://geekbackend.herokuapp.com/cart/bulk/${id}`)
     .then((res) => dispatch(emptyCartSuccess()))
     .catch((err) => dispatch(emptyCartFailure()));
 };

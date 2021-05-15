@@ -25,7 +25,7 @@ const postOrderFailure = () => {
 export const postOrderHandler = (payload) => (dispatch) => {
   dispatch(postOrderRequest());
   return axios
-    .post(`http://localhost:8000/orders`, payload)
+    .post(`https://geekbackend.herokuapp.com/orders`, payload)
     .then((res) => dispatch(postOrderSuccess(res.data)))
     .catch((err) => dispatch(postOrderFailure()));
 };
@@ -54,7 +54,7 @@ const getOrdersFailure = () => {
 export const getOrdersHandler = (id) => (dispatch) => {
   dispatch(getOrdersRequest());
   return axios
-    .get(`http://localhost:8000/orders/${id}`)
+    .get(`https://geekbackend.herokuapp.com/orders/${id}`)
     .then((res) => dispatch(getOrdersSuccess(res.data)))
     .catch((err) => dispatch(getOrdersFailure()));
 };

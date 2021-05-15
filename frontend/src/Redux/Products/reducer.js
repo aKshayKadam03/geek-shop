@@ -3,6 +3,8 @@ import * as actionTypes from "./actionType";
 const initState = {
   isLoading: false,
   isError: false,
+  isSoloLoading: false,
+  isSoloError: false,
   minPrice: 0,
   maxPrice: 0,
   productsTotal: 0,
@@ -64,17 +66,17 @@ export const productReducer = (state = initState, { type, data }) => {
       return { ...state, isLoading: false, isError: true };
 
     case actionTypes.GET_SOLO_PRODUCT_REQUEST:
-      return { ...state, isLoading: true };
+      return { ...state, isSoloLoading: true };
 
     case actionTypes.GET_SOLO_PRODUCT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isSoloLoading: false,
         soloProduct: data.data,
       };
 
     case actionTypes.GET_SOLO_PRODUCT_FAILURE:
-      return { ...state, isLoading: false, isError: true };
+      return { ...state, isSoloLoading: false, isSoloError: true };
 
     case actionTypes.GET_PRODUCT_REVIEWS_REQUEST:
       return { ...state, isLoading: true };

@@ -20,6 +20,7 @@ import {
 import Reviews from "./Reviews";
 import Recommendations from "../../Components/Recommendations/Recommendations";
 import { getCartHandler, postCartHandler } from "../../Redux/CartWish/action";
+import Loader from "../../Components/Loader/Loader";
 
 // font-family: 'Lato', sans-serif;
 // font-family: 'Montserrat', sans-serif;
@@ -162,6 +163,7 @@ function Solo() {
   const productsInCart = useSelector(
     (state) => state.cartWishReducer.uniqueCart
   );
+  let isLoading = useSelector((state) => state.productReducer.isSoloLoading);
   let recommendationItems = useSelector(
     (state) => state.productReducer.recommendations
   );
@@ -233,72 +235,80 @@ function Solo() {
   }
 
   return (
-    <SoloWrapper id="#" key={_id}>
-      <SoloSection>
-        <SoloProductImage>
-          <img src={product_img} alt={product_name}></img>
-        </SoloProductImage>
-        <SoloProductInfo>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/">Home</Link>
-            <Link to="/shop">Shop</Link>
-            <Link to="#">{product_name?.slice(0, 20)}</Link>
-          </Breadcrumbs>
-          <Category>{categoryId?.name}</Category>
-          <MainHeading>{product_name}</MainHeading>
-          <div>
-            <Rating value={+ratings} readOnly></Rating>
-          </div>
-          <ProductPrice>{price}</ProductPrice>
-          <div>
-            <Paragraph>{description}</Paragraph>
-          </div>
-          {isAuth && productsInCart.includes(_id) ? (
-            <div onClick={onCheckoutHandler}>
-              <AddToCart color="red">Go to Cart</AddToCart>
+    <>
+      {isLoading ? (
+        <>
+          <Loader></Loader>
+        </>
+      ) : (
+        <SoloWrapper id="#" key={_id}>
+          <SoloSection>
+            <SoloProductImage>
+              <img src={product_img} alt={product_name}></img>
+            </SoloProductImage>
+            <SoloProductInfo>
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link to="/">Home</Link>
+                <Link to="/shop">Shop</Link>
+                <Link to="#">{product_name?.slice(0, 20)}</Link>
+              </Breadcrumbs>
+              <Category>{categoryId?.name}</Category>
+              <MainHeading>{product_name}</MainHeading>
+              <div>
+                <Rating value={+ratings} readOnly></Rating>
+              </div>
+              <ProductPrice>{price}</ProductPrice>
+              <div>
+                <Paragraph>{description}</Paragraph>
+              </div>
+              {isAuth && productsInCart.includes(_id) ? (
+                <div onClick={onCheckoutHandler}>
+                  <AddToCart color="red">Go to Cart</AddToCart>
+                </div>
+              ) : (
+                <div onClick={addToCartHandler}>
+                  <AddToCart>Add to Cart</AddToCart>
+                </div>
+              )}
+            </SoloProductInfo>
+          </SoloSection>
+          <PromotionalSpace>
+            <div>
+              <SubHeadingOne>
+                Simplicity is about subtracting the obvious and adding the
+                meaningful.
+              </SubHeadingOne>
             </div>
-          ) : (
-            <div onClick={addToCartHandler}>
-              <AddToCart>Add to Cart</AddToCart>
-            </div>
-          )}
-        </SoloProductInfo>
-      </SoloSection>
-      <PromotionalSpace>
-        <div>
-          <SubHeadingOne>
-            Simplicity is about subtracting the obvious and adding the
-            meaningful.
-          </SubHeadingOne>
-        </div>
-      </PromotionalSpace>
-      <Reviews
-        postReviews={postReviews}
-        productId={_id}
-        reviews={reviews}
-        ratings={ratings}
-        isAuth={isAuth}
-        userReviewData={userReviewData}
-        setUserReviewData={setUserReviewData}
-      ></Reviews>
+          </PromotionalSpace>
+          <Reviews
+            postReviews={postReviews}
+            productId={_id}
+            reviews={reviews}
+            ratings={ratings}
+            isAuth={isAuth}
+            userReviewData={userReviewData}
+            setUserReviewData={setUserReviewData}
+          ></Reviews>
 
-      <RecommendationWrapper>
-        <SubHeadingOne>Similar Products</SubHeadingOne>
-        <RecommendationDisplay>
-          {recommendationItems?.map((item) => (
-            <Recommendations key={item?._id} {...item} />
-          ))}
-        </RecommendationDisplay>
-      </RecommendationWrapper>
-      <RecommendationWrapper>
-        <SubHeadingOne>More from {brandId?.name}</SubHeadingOne>
-        <RecommendationDisplay>
-          {moreFromSameBrand?.map((item) => (
-            <Recommendations key={item?._id} {...item} />
-          ))}
-        </RecommendationDisplay>
-      </RecommendationWrapper>
-    </SoloWrapper>
+          <RecommendationWrapper>
+            <SubHeadingOne>Similar Products</SubHeadingOne>
+            <RecommendationDisplay>
+              {recommendationItems?.map((item) => (
+                <Recommendations key={item?._id} {...item} />
+              ))}
+            </RecommendationDisplay>
+          </RecommendationWrapper>
+          <RecommendationWrapper>
+            <SubHeadingOne>More from {brandId?.name}</SubHeadingOne>
+            <RecommendationDisplay>
+              {moreFromSameBrand?.map((item) => (
+                <Recommendations key={item?._id} {...item} />
+              ))}
+            </RecommendationDisplay>
+          </RecommendationWrapper>
+        </SoloWrapper>
+      )}
+    </>
   );
 }
 

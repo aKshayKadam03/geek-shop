@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Recommendations from "../../Components/Recommendations/Recommendations";
 import { getProductsHomeHandler } from "../../Redux/Products/action";
+import Loader from "../../Components/Loader/Loader";
 
 const RecommendationDisplay = styled.div`
   display: flex;
@@ -28,13 +29,54 @@ function Home() {
   const dispatch = useDispatch();
   const featured = useSelector((state) => state.productReducer.featured);
   const popular = useSelector((state) => state.productReducer.popular);
+  const isLoading = useSelector((state) => state.productReducer.isLoading);
 
   React.useEffect(() => {
     dispatch(getProductsHomeHandler());
   }, []);
 
   return (
-    <div>
+    <>
+      {isLoading ? (
+        <>
+          <Loader></Loader>
+        </>
+      ) : (
+        <div>
+          <Hero></Hero>
+          <ProductsCollection>
+            <div>
+              <h2>Featured Products</h2>
+              <RecommendationDisplay>
+                {featured?.map((item) => (
+                  <Recommendations key={item?._id} {...item} />
+                ))}
+              </RecommendationDisplay>
+            </div>
+            <div>
+              <h2>Popular Products</h2>
+              <RecommendationDisplay>
+                {popular?.map((item) => (
+                  <Recommendations key={item?._id} {...item} />
+                ))}
+              </RecommendationDisplay>
+            </div>
+          </ProductsCollection>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default Home;
+
+{
+  /* <div>
+      <img src={preLoader} alt="loader"></div>   */
+}
+
+{
+  /* <div>
       <Hero></Hero>
       <ProductsCollection>
         <div>
@@ -54,8 +96,5 @@ function Home() {
           </RecommendationDisplay>
         </div>
       </ProductsCollection>
-    </div>
-  );
+    </div> */
 }
-
-export default Home;

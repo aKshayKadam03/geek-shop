@@ -25,7 +25,7 @@ export const getProductsHandler =
     dispatch(getProductsRequest());
     return axios
       .post(
-        `http://localhost:8000/products?page=${currentPage}&sort=${sortSelection}`,
+        `https://geekbackend.herokuapp.com/products?page=${currentPage}&sort=${sortSelection}`,
         payload
       )
       .then((res) => dispatch(getProductsSuccess(res.data)))
@@ -54,7 +54,7 @@ const getCategoriesFailure = () => {
 export const getCategoriesHandler = () => (dispatch) => {
   dispatch(getCategoriesRequest());
   return axios
-    .get("http://localhost:8000/categories")
+    .get("https://geekbackend.herokuapp.com/categories")
     .then((res) => dispatch(getCategoriesSuccess(res.data)))
     .catch((err) => dispatch(getCategoriesFailure()));
 };
@@ -81,7 +81,7 @@ const getBrandsFailure = () => {
 export const getBrandsHandler = () => (dispatch) => {
   dispatch(getBrandsRequest());
   return axios
-    .get("http://localhost:8000/brands")
+    .get("https://geekbackend.herokuapp.com/brands")
     .then((res) => dispatch(getBrandsSuccess(res.data)))
     .catch((err) => dispatch(getBrandsFailure()));
 };
@@ -108,7 +108,7 @@ const getSoloProductFailure = () => {
 export const getSoloProductHandler = (id) => (dispatch) => {
   dispatch(getSoloProductRequest());
   return axios
-    .get(`http://localhost:8000/products/${id}`)
+    .get(`https://geekbackend.herokuapp.com/products/${id}`)
     .then((res) => {
       dispatch(getSoloProductSuccess(res.data));
     })
@@ -139,7 +139,7 @@ const getProductReviewFailure = () => {
 export const getProductReviewHandler = (id) => (dispatch) => {
   dispatch(getProductReviewRequest());
   return axios
-    .get(`http://localhost:8000/reviews/${id}`)
+    .get(`https://geekbackend.herokuapp.com/reviews/${id}`)
     .then((res) => dispatch(getProductReviewSuccess(res.data)))
     .catch((err) => dispatch(getProductReviewFailure()));
 };
@@ -168,7 +168,7 @@ export const postProductReviewHandler = (payload) => (dispatch) => {
   dispatch(postProductReviewRequest());
 
   return axios
-    .post(`http://localhost:8000/reviews/post`, payload)
+    .post(`https://geekbackend.herokuapp.com/reviews/post`, payload)
     .then((res) => dispatch(postProductReviewSuccess(res.data)))
     .catch((err) => dispatch(postProductReviewFailure()));
 };
@@ -197,7 +197,7 @@ const getRecommendationsFailure = () => {
 export const getRecommendationsHandler = (id) => (dispatch) => {
   dispatch(getRecommendationsRequest());
   return axios
-    .get(`http://localhost:8000/products/category/${id}`)
+    .get(`https://geekbackend.herokuapp.com/products/category/${id}`)
     .then((res) => dispatch(getRecommendationsSuccess(res.data)))
     .catch((err) => dispatch(getRecommendationsFailure()));
 };
@@ -225,7 +225,7 @@ const getFromSameBrandFailure = () => {
 export const getFromSameBrandHandler = (id) => (dispatch) => {
   dispatch(getFromSameBrandRequest());
   return axios
-    .get(`http://localhost:8000/products/brand/${id}`)
+    .get(`https://geekbackend.herokuapp.com/products/brand/${id}`)
     .then((res) => dispatch(getFromSameBrandSuccess(res.data)))
     .catch((err) => dispatch(getFromSameBrandFailure()));
 };
@@ -255,7 +255,7 @@ const getSearchFailure = () => {
 export const getSearchHandler = (query) => (dispatch) => {
   dispatch(getSearchRequest());
   return axios
-    .get(`http://localhost:8000/products/search/${query}`)
+    .get(`https://geekbackend.herokuapp.com/products/search/${query}`)
     .then((res) => dispatch(getSearchSuccess(res.data)))
     .catch((err) => dispatch(getSearchFailure()));
 };
@@ -284,7 +284,7 @@ const getProductsHomeFailure = () => {
 export const getProductsHomeHandler = (payload, currentPage) => (dispatch) => {
   dispatch(getProductsHomeRequest());
   return axios
-    .get(`http://localhost:8000/products/home/products`)
+    .get(`https://geekbackend.herokuapp.com/products/home/products`)
     .then((res) => dispatch(getProductsHomeSuccess(res.data)))
     .catch((err) => dispatch(getProductsHomeFailure()));
 };
