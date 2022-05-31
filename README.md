@@ -65,7 +65,7 @@ I don't own any of the content such as images or icons on this website, this was
 
 ## Contributors
 Akshay Kadam
- 
+Harsh Gaur
 
  
 
