@@ -32,13 +32,7 @@ function App() {
     window.scrollTo(0, 0);
   });
 
-  // const themeToggle = () => {
-  //   if (activeTheme === "light") {
-  //     setActiveTheme("dark");
-  //   } else {
-  //     setActiveTheme("light");
-  //   }
-  // };
+  //I have added this
 
   return (
     <ThemeProvider theme={theme[activeTheme]}>
